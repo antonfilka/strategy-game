@@ -1,1 +1,2 @@
-# strategy-game
+### Strategy game
+#### React game
