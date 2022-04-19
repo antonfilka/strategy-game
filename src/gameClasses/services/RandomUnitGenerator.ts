@@ -1,12 +1,12 @@
-import ArcherUnit from "./ArcherUnit";
-import BomberUnit from "./BomberUnit";
-import DoggyUnit from "./DoggyUnit";
-import GunnerUnit from "./GunnerUnit";
-import MageUnit from "./MageUnit";
-import MusketeerUnit from "./MusketeerUnit";
-import PirateUnit from "./PirateUnit";
-import PriestUnit from "./PriestUnit";
-import SworderUnit from "./SworderUnit";
+import ArcherUnit from "../Units/ArcherUnit";
+import BomberUnit from "../Units/BomberUnit";
+import DoggyUnit from "../Units/DoggyUnit";
+import GunnerUnit from "../Units/GunnerUnit";
+import MageUnit from "../Units/MageUnit";
+import MusketeerUnit from "../Units/MusketeerUnit";
+import PirateUnit from "../Units/PirateUnit";
+import PriestUnit from "../Units/PriestUnit";
+import SworderUnit from "../Units/SworderUnit";
 
 type units =
   | ArcherUnit
