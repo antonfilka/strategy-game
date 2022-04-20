@@ -1,14 +1,41 @@
 import React from "react";
-import { AppWrapper } from "./App.css";
+import { AppWrapper, Arena } from "./App.css";
 import DynamicBackground from "./Components/DynamicBackground/DynamicBackground";
+import RowOfCells from "./Components/RowOfCells/RowOfCells";
 import RandomUnitGenerator from "./gameClasses/services/RandomUnitGenerator";
 
 class App extends React.Component {
-  hero = new RandomUnitGenerator().getUnit();
+  units = [
+    [
+      RandomUnitGenerator.getUnit(),
+      RandomUnitGenerator.getUnit(),
+      RandomUnitGenerator.getUnit(),
+    ],
+    [
+      RandomUnitGenerator.getUnit(),
+      RandomUnitGenerator.getUnit(),
+      RandomUnitGenerator.getUnit(),
+    ],
+    [
+      RandomUnitGenerator.getUnit(),
+      RandomUnitGenerator.getUnit(),
+      RandomUnitGenerator.getUnit(),
+    ],
+    [
+      RandomUnitGenerator.getUnit(),
+      RandomUnitGenerator.getUnit(),
+      RandomUnitGenerator.getUnit(),
+    ],
+  ];
+
   render() {
-    console.log(this.hero);
     return (
       <div className={AppWrapper}>
+        <div className={Arena}>
+          {this.units.map((rowOfUnits, index) => {
+            return <RowOfCells rowOfUnits={rowOfUnits} key={index} />;
+          })}
+        </div>
         <DynamicBackground />
       </div>
     );

@@ -8,7 +8,7 @@ import PirateUnit from "../Units/PirateUnit";
 import PriestUnit from "../Units/PriestUnit";
 import SworderUnit from "../Units/SworderUnit";
 
-type units =
+export type units =
   | ArcherUnit
   | BomberUnit
   | DoggyUnit
@@ -32,13 +32,7 @@ const units = [
 ];
 
 export default class RandomUnitGenerator {
-  private unit: units;
-
-  constructor() {
-    this.unit = new units[Math.floor(Math.random() * 9)]();
-  }
-
-  getUnit(): units {
-    return this.unit;
-  }
+  public static getUnit = (): units => {
+    return new units[Math.floor(Math.random() * 9)]();
+  };
 }
