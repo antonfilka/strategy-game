@@ -16,6 +16,7 @@ export default class SworderUnit extends Unit {
     isAttackTarget: boolean = false,
     isHealTarget: boolean = false,
     isParalyzeTarget: boolean = false,
+    isDefending = false,
     image: string = unitsImages.sworder
   ) {
     super(
@@ -32,6 +33,7 @@ export default class SworderUnit extends Unit {
       isAttackTarget,
       isHealTarget,
       isParalyzeTarget,
+      isDefending,
       image
     );
   }

@@ -4,12 +4,14 @@ import { teams } from "./Units/Unit";
 export default class Team {
   private team: string;
   private isMyTurn: boolean;
+  private isDefending: boolean;
   private units: Array<Array<units>>;
   private generator;
 
   constructor(team: string) {
     this.team = team;
     this.isMyTurn = team === teams.teamB ? false : true;
+    this.isDefending = false;
     this.generator = new RandomUnitGenerator({ team: this.team });
     this.units = [
       [
@@ -35,6 +37,14 @@ export default class Team {
 
   public setIsMyTurn = (isMyTurn: boolean) => {
     this.isMyTurn = isMyTurn;
+  };
+
+  public getIsDefending = (): boolean => {
+    return this.isDefending;
+  };
+
+  public setIsDefending = (isDefending: boolean) => {
+    this.isDefending = isDefending;
   };
 
   public getUnits = (): Array<Array<units>> => {

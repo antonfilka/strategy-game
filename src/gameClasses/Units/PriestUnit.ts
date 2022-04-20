@@ -17,6 +17,7 @@ export default class PriestUnit extends Unit {
     isAttackTarget: boolean = false,
     isHealTarget: boolean = false,
     isParalyzeTarget: boolean = false,
+    isDefending = false,
     image: string = unitsImages.priest
   ) {
     super(
@@ -33,6 +34,7 @@ export default class PriestUnit extends Unit {
       isAttackTarget,
       isHealTarget,
       isParalyzeTarget,
+      isDefending,
       image
     );
   }

@@ -16,7 +16,7 @@ export default class ArcherUnit extends Unit {
     isAttackTarget: boolean = false,
     isHealTarget: boolean = false,
     isParalyzeTarget: boolean = false,
-
+    isDefending = false,
     image: string = unitsImages.archer
   ) {
     super(
@@ -33,6 +33,7 @@ export default class ArcherUnit extends Unit {
       isAttackTarget,
       isHealTarget,
       isParalyzeTarget,
+      isDefending,
       image
     );
   }

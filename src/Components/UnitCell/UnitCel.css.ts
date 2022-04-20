@@ -43,6 +43,13 @@ export const paralyzeImage = style({
   opacity: "0.7",
 });
 
+export const defendImage = style({
+  marginTop: "30px",
+  position: "absolute",
+  width: "50%",
+  opacity: "0.9",
+});
+
 export const hpBackground = style({
   position: "absolute",
   zIndex: -1,

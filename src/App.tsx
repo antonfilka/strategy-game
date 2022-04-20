@@ -1,9 +1,8 @@
 import React from "react";
 import { AppWrapper, Arena, team } from "./App.css";
 import DynamicBackground from "./Components/DynamicBackground/DynamicBackground";
-import RowOfCells from "./Components/RowOfCells/RowOfCells";
 import TeamUnits from "./Components/TeamUnits/TeamUnits";
-import RandomUnitGenerator from "./gameClasses/services/RandomUnitGenerator";
+import TurnPointer from "./Components/TurnPointer/TurnPointer";
 import Team from "./gameClasses/Team";
 import { teams } from "./gameClasses/Units/Unit";
 
@@ -16,12 +15,13 @@ class App extends React.Component {
       <div className={AppWrapper}>
         <div className={Arena}>
           <div className={team}>
-            <TeamUnits units={this.teamA.getUnits()} />
+            <TeamUnits team={this.teamA} />
           </div>
           <div className={team}>
-            <TeamUnits units={this.teamB.getUnits()} />
+            <TeamUnits team={this.teamB} />
           </div>
         </div>
+        <TurnPointer team={this.teamA} />
         <DynamicBackground />
       </div>
     );

@@ -16,6 +16,7 @@ export default class MageUnit extends Unit {
     isAttackTarget: boolean = false,
     isHealTarget: boolean = false,
     isParalyzeTarget: boolean = false,
+    isDefending = false,
     image: string = unitsImages.mage
   ) {
     super(
@@ -32,6 +33,7 @@ export default class MageUnit extends Unit {
       isAttackTarget,
       isHealTarget,
       isParalyzeTarget,
+      isDefending,
       image
     );
   }

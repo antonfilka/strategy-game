@@ -3,9 +3,13 @@ import { style } from "@vanilla-extract/css";
 export const AppWrapper = style({
   position: "relative",
   height: "100vh",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
 });
 
 export const Arena = style({
+  margin: "0 auto 0 auto",
   height: "100%",
   display: "flex",
   flexDirection: "column",

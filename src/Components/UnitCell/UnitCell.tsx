@@ -4,6 +4,7 @@ import { assignInlineVars } from "@vanilla-extract/dynamic";
 import {
   cellWrapper,
   deadImage,
+  defendImage,
   hp,
   hpBackground,
   image,
@@ -26,6 +27,8 @@ export default class UnitCell extends React.Component<IUnitCell> {
       outlineOption = "solid 1px rgb(0, 255, 0, 0.9)";
     } else if (this.unit.getIsHealTarget()) {
       outlineOption = "solid 1px rgb(255, 215, 0, 0.9)";
+    } else if (this.unit.getIsParalyzeTarget()) {
+      outlineOption = "solid 1px rgb(114, 9, 183, 0.9)";
     }
 
     return (
@@ -49,6 +52,12 @@ export default class UnitCell extends React.Component<IUnitCell> {
           <img
             src="https://www.seekpng.com/png/full/858-8586257_water.png"
             className={paralyzeImage}
+          />
+        ) : null}
+        {this.unit.getIsDefending() ? (
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/595/595764.png"
+            className={defendImage}
           />
         ) : null}
         <img

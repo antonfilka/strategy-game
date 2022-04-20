@@ -11,6 +11,7 @@ export default class Unit {
   private isAttackTarget: boolean;
   private isHealTarget: boolean;
   private isParalyzeTarget: boolean;
+  private isDefending: boolean;
   private team: string;
   private image: string;
 
@@ -28,6 +29,7 @@ export default class Unit {
     isAttackTarget: boolean,
     isHealTarget: boolean,
     isParalyzeTarget: boolean,
+    isDefending: boolean,
     image: string
   ) {
     this.team = team;
@@ -43,6 +45,7 @@ export default class Unit {
     this.isAttackTarget = isAttackTarget;
     this.isHealTarget = isHealTarget;
     this.isParalyzeTarget = isParalyzeTarget;
+    this.isDefending = isDefending;
     this.image = image;
   }
 
@@ -132,6 +135,14 @@ export default class Unit {
 
   public setTeam = (team: string) => {
     this.team = team;
+  };
+
+  public getIsDefending = () => {
+    return this.isDefending;
+  };
+
+  public setIsDefending = (isDefending: boolean) => {
+    this.isDefending = isDefending;
   };
 
   public getImage = (): string => {
