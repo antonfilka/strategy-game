@@ -13,6 +13,9 @@ export default class PriestUnit extends Unit {
     initiative: number = 20,
     isParalyzed: boolean = false,
     isDead: boolean = false,
+    isAttackTarget: boolean = false,
+    isHealTarget: boolean = false,
+    isParalyzeTarget: boolean = false,
     image: string = unitsImages.priest
   ) {
     super(
@@ -25,6 +28,9 @@ export default class PriestUnit extends Unit {
       initiative,
       isParalyzed,
       isDead,
+      isAttackTarget,
+      isHealTarget,
+      isParalyzeTarget,
       image
     );
   }

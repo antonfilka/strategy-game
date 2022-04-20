@@ -12,6 +12,9 @@ export default class ArcherUnit extends Unit {
     initiative: number = 60,
     isParalyzed: boolean = false,
     isDead: boolean = false,
+    isAttackTarget: boolean = false,
+    isHealTarget: boolean = false,
+    isParalyzeTarget: boolean = false,
     image: string = unitsImages.archer
   ) {
     super(
@@ -24,6 +27,9 @@ export default class ArcherUnit extends Unit {
       initiative,
       isParalyzed,
       isDead,
+      isAttackTarget,
+      isHealTarget,
+      isParalyzeTarget,
       image
     );
   }

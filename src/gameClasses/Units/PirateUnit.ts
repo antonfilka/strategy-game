@@ -12,6 +12,9 @@ export default class PirateUnit extends Unit {
     initiative: number = 50,
     isParalyzed: boolean = false,
     isDead: boolean = false,
+    isAttackTarget: boolean = false,
+    isHealTarget: boolean = false,
+    isParalyzeTarget: boolean = false,
     image: string = unitsImages.pirate
   ) {
     super(
@@ -24,6 +27,9 @@ export default class PirateUnit extends Unit {
       initiative,
       isParalyzed,
       isDead,
+      isAttackTarget,
+      isHealTarget,
+      isParalyzeTarget,
       image
     );
   }

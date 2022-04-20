@@ -314,6 +314,13 @@
     "escape-string-regexp" "^4.0.0"
     "outdent" "^0.8.0"
 
+"@vanilla-extract/dynamic@^2.0.2":
+  "integrity" "sha512-U4nKaEQ8Kuz+exXEr51DUpyaOuzo24/S/k1YbDPQR06cYcNjQqvwFRnwWtZ+9ImocqM1wTKtzrdUgSTtLGIwAg=="
+  "resolved" "https://registry.npmjs.org/@vanilla-extract/dynamic/-/dynamic-2.0.2.tgz"
+  "version" "2.0.2"
+  dependencies:
+    "@vanilla-extract/private" "^1.0.3"
+
 "@vanilla-extract/integration@^3.0.0":
   "integrity" "sha512-4G4WgkalVRIsJyDb/X08S0xcG2eDm1RJvqIgji0D7HvOSeyD+nvPEhbq8FAxs7MeVyyPDoCWsCKQvS3f9jz9UA=="
   "resolved" "https://registry.npmjs.org/@vanilla-extract/integration/-/integration-3.0.1.tgz"

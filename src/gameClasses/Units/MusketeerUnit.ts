@@ -12,6 +12,9 @@ export default class MusketeerUnit extends Unit {
     initiative: number = 40,
     isParalyzed: boolean = false,
     isDead: boolean = false,
+    isAttackTarget: boolean = false,
+    isHealTarget: boolean = false,
+    isParalyzeTarget: boolean = false,
     image: string = unitsImages.musketeer
   ) {
     super(
@@ -24,6 +27,9 @@ export default class MusketeerUnit extends Unit {
       initiative,
       isParalyzed,
       isDead,
+      isAttackTarget,
+      isHealTarget,
+      isParalyzeTarget,
       image
     );
   }

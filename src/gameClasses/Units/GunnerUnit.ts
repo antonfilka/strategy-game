@@ -12,6 +12,9 @@ export default class GunnerUnit extends Unit {
     initiative: number = 60,
     isParalyzed: boolean = false,
     isDead: boolean = false,
+    isAttackTarget: boolean = false,
+    isHealTarget: boolean = false,
+    isParalyzeTarget: boolean = false,
     image: string = unitsImages.gunner
   ) {
     super(
@@ -24,6 +27,9 @@ export default class GunnerUnit extends Unit {
       initiative,
       isParalyzed,
       isDead,
+      isAttackTarget,
+      isHealTarget,
+      isParalyzeTarget,
       image
     );
   }

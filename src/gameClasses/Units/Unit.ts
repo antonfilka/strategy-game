@@ -8,6 +8,9 @@ export default class Unit {
   private initiative: number;
   private isParalyzed: boolean;
   private isDead: boolean;
+  private isAttackTarget: boolean;
+  private isHealTarget: boolean;
+  private isParalyzeTarget: boolean;
   private image: string;
 
   constructor(
@@ -20,6 +23,9 @@ export default class Unit {
     initiative: number,
     isParalyzed: boolean,
     isDead: boolean,
+    isAttackTarget: boolean,
+    isHealTarget: boolean,
+    isParalyzeTarget: boolean,
     image: string
   ) {
     this.id = id;
@@ -31,6 +37,9 @@ export default class Unit {
     this.initiative = initiative;
     this.isParalyzed = isParalyzed;
     this.isDead = isDead;
+    this.isAttackTarget = isAttackTarget;
+    this.isHealTarget = isHealTarget;
+    this.isParalyzeTarget = isParalyzeTarget;
     this.image = image;
   }
 
@@ -52,6 +61,12 @@ export default class Unit {
 
   public setCurrentHp = (currentHp: number) => {
     this.currentHp = currentHp;
+    this.currentHp <= 0 ? this.setIsDead(true) : null;
+  };
+
+  public applyDamage = (damage: number) => {
+    this.currentHp -= damage;
+    this.currentHp <= 0 ? this.setIsDead(true) : null;
   };
 
   public getMaxHp = (): number => {
@@ -76,10 +91,36 @@ export default class Unit {
 
   public setIsDead = (isDead: boolean) => {
     this.isDead = isDead;
+    this.currentHp = 0;
+    this.isDead ? this.setIsParalyzed(false) : null;
   };
 
   public setIsParalyzed = (isParalyzed: boolean) => {
     this.isParalyzed = isParalyzed;
+  };
+
+  getIsAttackTarget = (): boolean => {
+    return this.isAttackTarget;
+  };
+
+  setIsAttackTarget = (isAttackTarget: boolean) => {
+    this.isAttackTarget = isAttackTarget;
+  };
+
+  getIsHealTarget = (): boolean => {
+    return this.isHealTarget;
+  };
+
+  setIsHealTarget = (isHealTarget: boolean) => {
+    this.isHealTarget = isHealTarget;
+  };
+
+  getIsParalyzeTarget = (): boolean => {
+    return this.isParalyzeTarget;
+  };
+
+  setIsParalyzeTarget = (isParalyzeTarget: boolean) => {
+    this.isParalyzeTarget = isParalyzeTarget;
   };
 
   public getImage = (): string => {
