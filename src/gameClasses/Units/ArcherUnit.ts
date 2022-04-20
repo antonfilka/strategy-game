@@ -3,6 +3,7 @@ import { v4 } from "uuid";
 
 export default class ArcherUnit extends Unit {
   constructor(
+    team: string,
     id: string = v4(),
     type: string = unitsTypes.range,
     name: string = "Archer",
@@ -15,9 +16,11 @@ export default class ArcherUnit extends Unit {
     isAttackTarget: boolean = false,
     isHealTarget: boolean = false,
     isParalyzeTarget: boolean = false,
+
     image: string = unitsImages.archer
   ) {
     super(
+      team,
       id,
       type,
       name,

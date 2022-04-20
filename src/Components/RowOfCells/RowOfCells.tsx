@@ -3,13 +3,13 @@ import { units } from "../../gameClasses/services/RandomUnitGenerator";
 import UnitCell from "../UnitCell/UnitCell";
 import { rowWrapper } from "./RowOfCells.css";
 
-type RowOfCellsProps = {
+type IRowOfCells = {
   rowOfUnits: Array<units>;
 };
 
-export default class RowOfCells extends Component<RowOfCellsProps> {
+export default class RowOfCells extends Component<IRowOfCells> {
   private rowOfUnits;
-  constructor(props: RowOfCellsProps) {
+  constructor(props: IRowOfCells) {
     super(props);
     this.rowOfUnits = props.rowOfUnits;
   }

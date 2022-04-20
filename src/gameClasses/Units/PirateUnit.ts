@@ -3,6 +3,7 @@ import { v4 } from "uuid";
 
 export default class PirateUnit extends Unit {
   constructor(
+    team: string,
     id: string = v4(),
     type: string = unitsTypes.melee,
     name: string = "Pirate",
@@ -18,6 +19,7 @@ export default class PirateUnit extends Unit {
     image: string = unitsImages.pirate
   ) {
     super(
+      team,
       id,
       type,
       name,

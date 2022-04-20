@@ -9,6 +9,13 @@ export const Arena = style({
   height: "100%",
   display: "flex",
   flexDirection: "column",
-  justifyContent: "center",
   alignItems: "center",
+  justifyContent: "center",
+});
+
+export const team = style({
+  padding: "10px 80px 10px 80px",
+  borderRadius: 10,
+  backgroundColor: "rgba(0 ,0 ,0,0.05)",
+  margin: "10px 0",
 });

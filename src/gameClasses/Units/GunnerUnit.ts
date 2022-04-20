@@ -3,6 +3,7 @@ import { v4 } from "uuid";
 
 export default class GunnerUnit extends Unit {
   constructor(
+    team: string,
     id: string = v4(),
     type: string = unitsTypes.range,
     name: string = "Gunner",
@@ -18,6 +19,7 @@ export default class GunnerUnit extends Unit {
     image: string = unitsImages.gunner
   ) {
     super(
+      team,
       id,
       type,
       name,

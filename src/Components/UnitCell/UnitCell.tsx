@@ -10,13 +10,13 @@ import {
   paralyzeImage,
 } from "./UnitCel.css";
 
-type UnitCellProps = {
+type IUnitCell = {
   cellUnit: units;
 };
 
-export default class UnitCell extends React.Component<UnitCellProps> {
+export default class UnitCell extends React.Component<IUnitCell> {
   unit: units;
-  constructor(props: UnitCellProps) {
+  constructor(props: IUnitCell) {
     super(props);
     this.unit = props.cellUnit;
   }
@@ -27,11 +27,16 @@ export default class UnitCell extends React.Component<UnitCellProps> {
     } else if (this.unit.getIsHealTarget()) {
       outlineOption = "solid 1px rgb(255, 215, 0, 0.9)";
     }
+
     return (
       <div
         className={cellWrapper}
         style={assignInlineVars({
           outline: outlineOption,
+          boxShadow:
+            this.unit.getTeam() === "A"
+              ? "5px 5px 5px rgb(196, 107, 83, 0.9)"
+              : "5px 5px 5px rgb(124, 96, 134, 0.9)",
         })}
       >
         {this.unit.getIsDead() ? (

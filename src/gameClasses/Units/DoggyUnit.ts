@@ -4,6 +4,7 @@ import { v4 } from "uuid";
 export default class DoggyUnit extends Unit {
   private heal: number = 40;
   constructor(
+    team: string,
     id: string = v4(),
     type: string = unitsTypes.healerSingle,
     name: string = "Doggy",
@@ -19,6 +20,7 @@ export default class DoggyUnit extends Unit {
     image: string = unitsImages.doggy
   ) {
     super(
+      team,
       id,
       type,
       name,

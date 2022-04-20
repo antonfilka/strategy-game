@@ -6,12 +6,11 @@ export const cellWrapper = style({
   maxWidth: "130px",
   border: "none",
   borderRadius: 20,
-  boxShadow: "5px 5px 45px black",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  backgroundColor: "rgb(100, 255, 255, 0.1)",
+  backgroundColor: "rgb(100, 255, 255, 0.2)",
   cursor: "pointer",
   ":hover": {
     transform: "scale(1.01)",
@@ -19,8 +18,12 @@ export const cellWrapper = style({
 });
 
 export const hp = style({
+  color: "rgb(48, 28, 13)",
   fontWeight: "bold",
   marginBottom: 10,
+  padding: "1px 4px 1px 4px",
+  borderRadius: 3,
+  backgroundColor: "rgba(230, 230, 230, 0.15)",
 });
 
 export const image = style({

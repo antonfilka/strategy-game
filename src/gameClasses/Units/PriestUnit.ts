@@ -4,6 +4,7 @@ import { v4 } from "uuid";
 export default class PriestUnit extends Unit {
   private heal: number = 25;
   constructor(
+    team: string,
     id: string = v4(),
     type: string = unitsTypes.healerMass,
     name: string = "Priest",
@@ -19,6 +20,7 @@ export default class PriestUnit extends Unit {
     image: string = unitsImages.priest
   ) {
     super(
+      team,
       id,
       type,
       name,

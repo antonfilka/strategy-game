@@ -11,9 +11,11 @@ export default class Unit {
   private isAttackTarget: boolean;
   private isHealTarget: boolean;
   private isParalyzeTarget: boolean;
+  private team: string;
   private image: string;
 
   constructor(
+    team: string,
     id: string,
     type: string,
     name: string,
@@ -28,6 +30,7 @@ export default class Unit {
     isParalyzeTarget: boolean,
     image: string
   ) {
+    this.team = team;
     this.id = id;
     this.type = type;
     this.name = name;
@@ -123,9 +126,22 @@ export default class Unit {
     this.isParalyzeTarget = isParalyzeTarget;
   };
 
+  public getTeam = () => {
+    return this.team;
+  };
+
+  public setTeam = (team: string) => {
+    this.team = team;
+  };
+
   public getImage = (): string => {
     return this.image;
   };
+}
+
+export enum teams {
+  teamA = "A",
+  teamB = "B",
 }
 
 export enum unitsTypes {

@@ -3,6 +3,7 @@ import { v4 } from "uuid";
 
 export default class BomberUnit extends Unit {
   constructor(
+    team: string,
     id: string = v4(),
     type: string = unitsTypes.mage,
     name: string = "Bomber",
@@ -18,6 +19,7 @@ export default class BomberUnit extends Unit {
     image: string = unitsImages.bomber
   ) {
     super(
+      team,
       id,
       type,
       name,

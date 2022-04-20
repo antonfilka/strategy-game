@@ -31,8 +31,16 @@ const units = [
   SworderUnit,
 ];
 
+interface IRandomUnitGenerator {
+  team: string;
+}
+
 export default class RandomUnitGenerator {
-  public static getUnit = (): units => {
-    return new units[Math.floor(Math.random() * 9)]();
+  team: string;
+  constructor(props: IRandomUnitGenerator) {
+    this.team = props.team;
+  }
+  public getUnit = (): units => {
+    return new units[Math.floor(Math.random() * 9)](this.team);
   };
 }

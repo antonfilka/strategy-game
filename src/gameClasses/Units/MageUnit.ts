@@ -3,6 +3,7 @@ import { v4 } from "uuid";
 
 export default class MageUnit extends Unit {
   constructor(
+    team: string,
     id: string = v4(),
     type: string = unitsTypes.paralyzer,
     name: string = "Mage",
@@ -18,6 +19,7 @@ export default class MageUnit extends Unit {
     image: string = unitsImages.mage
   ) {
     super(
+      team,
       id,
       type,
       name,
