@@ -1,50 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import { AppWrapper, Arena, team } from "./App.css";
 import DynamicBackground from "./Components/DynamicBackground/DynamicBackground";
+import RoundInfo from "./Components/RoundInfo/RoundInfo";
 import TeamUnits from "./Components/TeamUnits/TeamUnits";
 import TurnPointer from "./Components/TurnPointer/TurnPointer";
 import Team from "./gameClasses/Team";
 import TurnSwitcher from "./gameClasses/TurnSwitcher";
 import { teams } from "./gameClasses/Units/Unit";
 
-interface IState {
-  currentTurn: string;
-}
+const App: React.FC = () => {
+  const [currentTurn, setCurrentTurn] = useState(teams.teamA);
+  const [unitsOnHover, setUnitsOnHover] = useState<Array<string>>([]);
+  const [teamA, setTeamA] = useState(new Team({ team: teams.teamA }));
+  const [teamB, setTeamB] = useState(new Team({ team: teams.teamB }));
 
-class App extends React.Component<IState> {
-  state = { currentTurn: "A" };
+  //console.log(unitsOnHover);
 
-  teamA = new Team({ team: teams.teamA });
-  teamB = new Team({ team: teams.teamB });
-  turnSwitcher = new TurnSwitcher({ teamA: this.teamA, teamB: this.teamB });
+  const turnSwitcher = new TurnSwitcher({ teamA: teamA, teamB: teamB });
 
-  render() {
-    const handleTurnChange = (team: string) => {
-      this.turnSwitcher.Switch();
-      team === teams.teamA
-        ? this.setState({ currentTurn: teams.teamB })
-        : this.setState({ currentTurn: teams.teamA });
-    };
+  const handleTurnChange = (team: string) => {
+    turnSwitcher.Switch();
+    team === teams.teamA
+      ? setCurrentTurn(teams.teamB)
+      : setCurrentTurn(teams.teamA);
+  };
 
-    const getCurrentTurn = (): string => {
-      return this.state.currentTurn;
-    };
-
-    return (
-      <div className={AppWrapper}>
-        <div className={Arena}>
-          <div className={team}>
-            <TeamUnits team={this.teamA} handleTurnChange={handleTurnChange} />
-          </div>
-          <div className={team}>
-            <TeamUnits team={this.teamB} handleTurnChange={handleTurnChange} />
-          </div>
+  return (
+    <div className={AppWrapper}>
+      <RoundInfo
+        turnSwitcher={turnSwitcher}
+        unitsOnHover={unitsOnHover}
+        setUnitsOnHover={setUnitsOnHover}
+      />
+      <div className={Arena}>
+        <div className={team}>
+          <TeamUnits
+            team={teamA}
+            handleTurnChange={handleTurnChange}
+            unitsOnHover={unitsOnHover}
+            setUnitsOnHover={setUnitsOnHover}
+          />
         </div>
-        <TurnPointer getCurrentTurn={getCurrentTurn} />
-        <DynamicBackground />
+        <div className={team}>
+          <TeamUnits
+            team={teamB}
+            handleTurnChange={handleTurnChange}
+            unitsOnHover={unitsOnHover}
+            setUnitsOnHover={setUnitsOnHover}
+          />
+        </div>
       </div>
-    );
-  }
-}
+      <TurnPointer currentTurn={currentTurn} />
+      <DynamicBackground />
+    </div>
+  );
+};
 
 export default App;

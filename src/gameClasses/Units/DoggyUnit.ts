@@ -18,6 +18,7 @@ export default class DoggyUnit extends Unit {
     isHealTarget: boolean = false,
     isParalyzeTarget: boolean = false,
     isDefending = false,
+    isOnHover = false,
     image: string = unitsImages.doggy
   ) {
     super(
@@ -35,6 +36,7 @@ export default class DoggyUnit extends Unit {
       isHealTarget,
       isParalyzeTarget,
       isDefending,
+      isOnHover,
       image
     );
   }

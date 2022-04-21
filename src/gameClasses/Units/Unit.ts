@@ -13,6 +13,7 @@ export default class Unit {
   private isParalyzeTarget: boolean;
   private isDefending: boolean;
   private team: string;
+  private isOnHover;
   private image: string;
 
   constructor(
@@ -30,6 +31,7 @@ export default class Unit {
     isHealTarget: boolean,
     isParalyzeTarget: boolean,
     isDefending: boolean,
+    isOnHover: boolean,
     image: string
   ) {
     this.team = team;
@@ -46,6 +48,7 @@ export default class Unit {
     this.isHealTarget = isHealTarget;
     this.isParalyzeTarget = isParalyzeTarget;
     this.isDefending = isDefending;
+    this.isOnHover = isOnHover;
     this.image = image;
   }
 
@@ -147,6 +150,14 @@ export default class Unit {
 
   public setIsDefending = (isDefending: boolean) => {
     this.isDefending = isDefending;
+  };
+
+  public getIsOnHover = () => {
+    return this.isOnHover;
+  };
+
+  public setIsOnHover = (isOnHover: boolean) => {
+    this.isOnHover = isOnHover;
   };
 
   public getImage = (): string => {

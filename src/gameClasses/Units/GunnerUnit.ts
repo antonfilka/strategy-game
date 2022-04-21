@@ -17,6 +17,7 @@ export default class GunnerUnit extends Unit {
     isHealTarget: boolean = false,
     isParalyzeTarget: boolean = false,
     isDefending = false,
+    isOnHover = false,
     image: string = unitsImages.gunner
   ) {
     super(
@@ -34,6 +35,7 @@ export default class GunnerUnit extends Unit {
       isHealTarget,
       isParalyzeTarget,
       isDefending,
+      isOnHover,
       image
     );
   }

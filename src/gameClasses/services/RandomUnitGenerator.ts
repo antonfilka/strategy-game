@@ -42,5 +42,6 @@ export default class RandomUnitGenerator {
   }
   public getUnit = (): units => {
     return new units[Math.floor(Math.random() * 9)](this.team);
+    // return new PirateUnit(this.team);
   };
 }
