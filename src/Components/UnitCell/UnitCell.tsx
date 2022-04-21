@@ -21,6 +21,7 @@ export default class UnitCell extends React.Component<IUnitCell> {
     super(props);
     this.unit = props.cellUnit;
   }
+
   render() {
     let outlineOption = "";
     if (this.unit.getIsAttackTarget()) {

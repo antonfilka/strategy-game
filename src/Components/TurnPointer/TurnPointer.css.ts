@@ -11,23 +11,34 @@ export const pointerWrapper = style({
 
 export const slider = style({
   height: "80%",
-  width: "20%",
+  width: "10%",
   backgroundColor: "rgb(93,53,37, 0.6)",
   borderRadius: "8px",
   filter: "blur(1px)",
+  opacity: "0.5",
 });
 
 export const pointer = style({
   position: "absolute",
   zIndex: 1,
-  right: "30px",
-  width: "90px",
-  fontSize: "22px",
-  backgroundColor: "rgb(196, 107, 83, 0.9)",
-  padding: "6px 20px 6px 20px",
-  borderRadius: "8px",
+  right: "2px",
+  width: "150px",
   top: "76%",
   transition: "all 0.5s linear",
+  color: "rgb(227, 233, 194)",
+  fontWeight: "bold",
+});
+
+export const pointerImage = style({
+  height: "70px",
+  width: "150px",
+});
+
+export const pointerText = style({
+  position: "absolute",
+  top: "21px",
+  right: "27px",
+  fontSize: "22px",
 });
 
 export const moveToA = keyframes({

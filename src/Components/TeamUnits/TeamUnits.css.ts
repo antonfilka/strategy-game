@@ -32,4 +32,7 @@ export const defendButton = style({
   ":hover": {
     transform: "scale(1.01)",
   },
+  ":active": {
+    transform: "scale(0.95)",
+  },
 });
