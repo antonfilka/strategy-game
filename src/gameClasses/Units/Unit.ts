@@ -71,7 +71,11 @@ export default class Unit {
   };
 
   public applyDamage = (damage: number) => {
-    this.currentHp -= damage;
+    if (this.getIsDefending()) {
+      this.currentHp -= damage / 2;
+    } else {
+      this.currentHp -= damage;
+    }
     this.currentHp <= 0 ? this.setIsDead(true) : null;
   };
 

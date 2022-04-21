@@ -1,6 +1,10 @@
 import RandomUnitGenerator, { units } from "./services/RandomUnitGenerator";
 import { teams } from "./Units/Unit";
 
+interface ITeam {
+  team: string;
+}
+
 export default class Team {
   private team: string;
   private isMyTurn: boolean;
@@ -8,11 +12,12 @@ export default class Team {
   private units: Array<Array<units>>;
   private generator;
 
-  constructor(team: string) {
-    this.team = team;
-    this.isMyTurn = team === teams.teamB ? false : true;
+  constructor(props: ITeam) {
+    this.team = props.team;
+    this.isMyTurn = props.team === teams.teamB ? false : true;
     this.isDefending = false;
     this.generator = new RandomUnitGenerator({ team: this.team });
+
     this.units = [
       [
         this.generator.getUnit(),
@@ -26,6 +31,24 @@ export default class Team {
       ],
     ];
   }
+
+  public defend = (): void => {
+    if (this.getIsMyTurn()) {
+      if (this.getIsDefending()) {
+        alert("You are defending now");
+        return;
+      }
+
+      this.setIsDefending(true);
+
+      this.units.forEach((row) =>
+        row.forEach((unit) => unit.setIsDefending(true))
+      );
+    } else {
+      alert("Wait until your turn");
+      return;
+    }
+  };
 
   public getTeam = (): string => {
     return this.team;

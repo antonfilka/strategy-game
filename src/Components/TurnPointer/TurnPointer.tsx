@@ -1,34 +1,34 @@
-import { keyframes } from "@vanilla-extract/css";
 import { assignInlineVars } from "@vanilla-extract/dynamic";
 import React, { Component } from "react";
 import Team from "../../gameClasses/Team";
-import {
-  moveToA,
-  moveToB,
-  pointer,
-  pointerWrapper,
-  slider,
-} from "./TurnPointer.css";
+import TurnSwitcher from "../../gameClasses/TurnSwitcher";
+import { teams } from "../../gameClasses/Units/Unit";
+import { pointer, pointerWrapper, slider } from "./TurnPointer.css";
 
 interface ITurnPointer {
-  team: Team;
+  getCurrentTurn: () => string;
 }
 
 export default class TurnPointer extends Component<ITurnPointer> {
-  team;
+  private getCurrentTurn;
+
   constructor(props: ITurnPointer) {
     super(props);
-    this.team = props.team;
+    this.getCurrentTurn = props.getCurrentTurn;
   }
+
   render() {
-    const currentTeamIsA = this.team.getIsMyTurn();
+    let isTurnOfTeamA;
+    this.getCurrentTurn() === teams.teamA
+      ? (isTurnOfTeamA = true)
+      : (isTurnOfTeamA = false);
 
     return (
       <div className={pointerWrapper}>
         <div
           className={pointer}
           style={assignInlineVars({
-            top: currentTeamIsA ? "24%" : "76%",
+            top: isTurnOfTeamA ? "24%" : "76%",
           })}
         >
           Your turn

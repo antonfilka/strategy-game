@@ -1,33 +1,34 @@
 import React from "react";
 import { units } from "../../gameClasses/services/RandomUnitGenerator";
 import Team from "../../gameClasses/Team";
+import TurnSwitcher from "../../gameClasses/TurnSwitcher";
+import { teams } from "../../gameClasses/Units/Unit";
 import RowOfCells from "../RowOfCells/RowOfCells";
 import { defendButton, teamUnits, teamWrapper } from "./TeamUnits.css";
 
 interface ITeamUnits {
+  handleTurnChange: (team: string) => void;
   team: Team;
 }
 
 export default class TeamUnits extends React.Component<ITeamUnits> {
-  team;
+  private team: Team;
+  private handleTurnChange;
   constructor(props: ITeamUnits) {
     super(props);
     this.team = props.team;
+    this.handleTurnChange = props.handleTurnChange;
   }
   render() {
     const handleDefendButton = () => {
+      this.team.defend();
       if (this.team.getIsMyTurn()) {
-        this.team.getIsDefending() ? alert("You are defending now") : null;
-        this.team.setIsDefending(true);
-        const units = this.team.getUnits();
-        units.forEach((row) =>
-          row.forEach((unit) => unit.setIsDefending(true))
-        );
-        this.setState({});
-      } else {
-        alert("Wait until your turn");
+        this.handleTurnChange(this.team.getTeam());
       }
+
+      this.setState({ a: "" });
     };
+
     return (
       <div className={teamWrapper}>
         <div className={teamUnits}>
