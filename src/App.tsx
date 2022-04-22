@@ -10,11 +10,9 @@ import { teams } from "./gameClasses/Units/Unit";
 
 const App: React.FC = () => {
   const [currentTurn, setCurrentTurn] = useState(teams.teamA);
-  const [unitsOnHover, setUnitsOnHover] = useState<Array<string>>([]);
+  const [unitOnHover, setUnitOnHover] = useState<string>("");
   const [teamA, setTeamA] = useState(new Team({ team: teams.teamA }));
   const [teamB, setTeamB] = useState(new Team({ team: teams.teamB }));
-
-  //console.log(unitsOnHover);
 
   const turnSwitcher = new TurnSwitcher({ teamA: teamA, teamB: teamB });
 
@@ -29,24 +27,22 @@ const App: React.FC = () => {
     <div className={AppWrapper}>
       <RoundInfo
         turnSwitcher={turnSwitcher}
-        unitsOnHover={unitsOnHover}
-        setUnitsOnHover={setUnitsOnHover}
+        unitOnHover={unitOnHover}
+        setUnitOnHover={setUnitOnHover}
       />
       <div className={Arena}>
         <div className={team}>
           <TeamUnits
             team={teamA}
             handleTurnChange={handleTurnChange}
-            unitsOnHover={unitsOnHover}
-            setUnitsOnHover={setUnitsOnHover}
+            unitOnHover={unitOnHover}
           />
         </div>
         <div className={team}>
           <TeamUnits
             team={teamB}
             handleTurnChange={handleTurnChange}
-            unitsOnHover={unitsOnHover}
-            setUnitsOnHover={setUnitsOnHover}
+            unitOnHover={unitOnHover}
           />
         </div>
       </div>

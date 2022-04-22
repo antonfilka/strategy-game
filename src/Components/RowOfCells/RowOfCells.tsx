@@ -4,35 +4,18 @@ import UnitCell from "../UnitCell/UnitCell";
 import { rowWrapper } from "./RowOfCells.css";
 
 type IRowOfCells = {
-  setUnitsOnHover: (arr: Array<string>) => void;
-  unitsOnHover: string[];
+  unitOnHover: string;
   rowOfUnits: Array<units>;
 };
 
-export default class RowOfCells extends Component<IRowOfCells> {
-  private rowOfUnits;
-  private unitsOnHover;
-  private setUnitsOnHover;
+const RowOfCells: React.FC<IRowOfCells> = ({ unitOnHover, rowOfUnits }) => {
+  return (
+    <div className={rowWrapper}>
+      {rowOfUnits.map((cellUnit: units, index: number) => (
+        <UnitCell cellUnit={cellUnit} key={index} unitOnHover={unitOnHover} />
+      ))}
+    </div>
+  );
+};
 
-  constructor(props: IRowOfCells) {
-    super(props);
-    this.rowOfUnits = props.rowOfUnits;
-    this.unitsOnHover = props.unitsOnHover;
-    this.setUnitsOnHover = props.setUnitsOnHover;
-  }
-
-  render() {
-    return (
-      <div className={rowWrapper}>
-        {this.rowOfUnits.map((cellUnit: units, index: number) => (
-          <UnitCell
-            cellUnit={cellUnit}
-            key={index}
-            unitsOnHover={this.unitsOnHover}
-            setUnitsOnHover={this.setUnitsOnHover}
-          />
-        ))}
-      </div>
-    );
-  }
-}
+export default RowOfCells;

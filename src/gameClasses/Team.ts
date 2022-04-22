@@ -50,6 +50,14 @@ export default class Team {
     }
   };
 
+  public attack = (): void => {
+    if (this.getIsMyTurn()) {
+    } else {
+      alert("Wait until your turn");
+      return;
+    }
+  };
+
   public getTeam = (): string => {
     return this.team;
   };

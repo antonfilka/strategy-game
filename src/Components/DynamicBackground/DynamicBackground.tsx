@@ -3,7 +3,7 @@ import { loadFirePreset } from "tsparticles-preset-fire";
 import { Engine } from "tsparticles-engine";
 import React from "react";
 
-export class App extends React.Component {
+export class DynamicBackground extends React.Component {
   async customInit(engine: Engine): Promise<void> {
     await loadFirePreset(engine);
   }
@@ -31,7 +31,7 @@ export class App extends React.Component {
             quantity: 4,
           },
           repulse: {
-            distance: 200,
+            distance: 400,
             duration: 0.4,
           },
         },
@@ -47,7 +47,7 @@ export class App extends React.Component {
             default: "bounce",
           },
           random: true,
-          speed: 4,
+          speed: 3,
           straight: false,
         },
         number: {
@@ -74,4 +74,4 @@ export class App extends React.Component {
   }
 }
 
-export default App;
+export default DynamicBackground;

@@ -24,7 +24,7 @@ export const pointer = style({
   right: "2px",
   width: "150px",
   top: "76%",
-  transition: "all 0.5s linear",
+  transition: "all 0.3s ease-in-out",
   color: "rgb(227, 233, 194)",
   fontWeight: "bold",
 });

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import TurnSwitcher from "../../gameClasses/TurnSwitcher";
-import UnitCell from "../UnitCell/UnitCell";
+import SideBarUnitCell from "../SideBarUnitCell/SideBarUnitCell";
 import { roundInfoWrapper } from "./RoundInfo.css";
 
 interface IRoundInfo {
   turnSwitcher: TurnSwitcher;
-  unitsOnHover: Array<string>;
-  setUnitsOnHover: (arr: Array<string>) => void;
+  unitOnHover: string;
+  setUnitOnHover: (str: string) => void;
 }
 
 const RoundInfo: React.FC<IRoundInfo> = ({
   turnSwitcher,
-  unitsOnHover,
-  setUnitsOnHover,
+  unitOnHover,
+  setUnitOnHover,
 }) => {
   const [unitsA, setUnitsA] = useState(turnSwitcher.getTeamA().getUnits());
   const [unitsB, setUnitsB] = useState(turnSwitcher.getTeamB().getUnits());
@@ -27,12 +27,11 @@ const RoundInfo: React.FC<IRoundInfo> = ({
       {turnSwitcher.getTeamA().getIsMyTurn()
         ? unitsA.map((rowOfUnits) =>
             rowOfUnits.map((unit, index) => (
-              <UnitCell
+              <SideBarUnitCell
                 cellUnit={unit}
-                isSideBar={true}
                 key={index}
-                unitsOnHover={unitsOnHover}
-                setUnitsOnHover={setUnitsOnHover}
+                unitOnHover={unitOnHover}
+                setUnitOnHover={setUnitOnHover}
               />
             ))
           )
@@ -40,12 +39,11 @@ const RoundInfo: React.FC<IRoundInfo> = ({
       {turnSwitcher.getTeamB().getIsMyTurn()
         ? unitsB.map((rowOfUnits) =>
             rowOfUnits.map((unit, index) => (
-              <UnitCell
+              <SideBarUnitCell
                 cellUnit={unit}
-                isSideBar={true}
                 key={index}
-                unitsOnHover={unitsOnHover}
-                setUnitsOnHover={setUnitsOnHover}
+                unitOnHover={unitOnHover}
+                setUnitOnHover={setUnitOnHover}
               />
             ))
           )

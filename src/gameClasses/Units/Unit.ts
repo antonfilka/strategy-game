@@ -13,7 +13,7 @@ export default class Unit {
   private isParalyzeTarget: boolean;
   private isDefending: boolean;
   private team: string;
-  private isOnHover;
+  private isOnHover: boolean;
   private image: string;
 
   constructor(
