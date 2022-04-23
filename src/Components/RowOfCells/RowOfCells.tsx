@@ -6,13 +6,23 @@ import { rowWrapper } from "./RowOfCells.css";
 type IRowOfCells = {
   unitOnHover: string;
   rowOfUnits: Array<units>;
+  handleSetCurrentTarget: (unit: units) => void;
 };
 
-const RowOfCells: React.FC<IRowOfCells> = ({ unitOnHover, rowOfUnits }) => {
+const RowOfCells: React.FC<IRowOfCells> = ({
+  unitOnHover,
+  rowOfUnits,
+  handleSetCurrentTarget,
+}) => {
   return (
     <div className={rowWrapper}>
       {rowOfUnits.map((cellUnit: units, index: number) => (
-        <UnitCell cellUnit={cellUnit} key={index} unitOnHover={unitOnHover} />
+        <UnitCell
+          cellUnit={cellUnit}
+          key={index}
+          unitOnHover={unitOnHover}
+          handleSetCurrentTarget={handleSetCurrentTarget}
+        />
       ))}
     </div>
   );

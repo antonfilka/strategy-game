@@ -19,7 +19,10 @@ export default class PriestUnit extends Unit {
     isParalyzeTarget: boolean = false,
     isDefending = false,
     isOnHover = false,
-    image: string = unitsImages.priest
+    image: string = unitsImages.priest,
+    position: Array<number>,
+    hasCompletedTheTurn: boolean = false,
+    possibleTargets: Array<string> = []
   ) {
     super(
       team,
@@ -37,7 +40,10 @@ export default class PriestUnit extends Unit {
       isParalyzeTarget,
       isDefending,
       isOnHover,
-      image
+      image,
+      position,
+      hasCompletedTheTurn,
+      possibleTargets
     );
   }
 }

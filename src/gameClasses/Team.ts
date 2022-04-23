@@ -11,25 +11,41 @@ export default class Team {
   private isDefending: boolean;
   private units: Array<Array<units>>;
   private generator;
+  private unitsInTurn: Array<units>;
 
   constructor(props: ITeam) {
     this.team = props.team;
     this.isMyTurn = props.team === teams.teamB ? false : true;
     this.isDefending = false;
     this.generator = new RandomUnitGenerator({ team: this.team });
+    this.unitsInTurn = [];
 
-    this.units = [
-      [
-        this.generator.getUnit(),
-        this.generator.getUnit(),
-        this.generator.getUnit(),
-      ],
-      [
-        this.generator.getUnit(),
-        this.generator.getUnit(),
-        this.generator.getUnit(),
-      ],
-    ];
+    this.units =
+      this.team === teams.teamA
+        ? [
+            [
+              this.generator.getUnit([1, 1]),
+              this.generator.getUnit([1, 2]),
+              this.generator.getUnit([1, 3]),
+            ],
+            [
+              this.generator.getUnit([2, 1]),
+              this.generator.getUnit([2, 2]),
+              this.generator.getUnit([2, 3]),
+            ],
+          ]
+        : [
+            [
+              this.generator.getUnit([3, 1]),
+              this.generator.getUnit([3, 2]),
+              this.generator.getUnit([3, 3]),
+            ],
+            [
+              this.generator.getUnit([4, 1]),
+              this.generator.getUnit([4, 2]),
+              this.generator.getUnit([4, 3]),
+            ],
+          ];
   }
 
   public defend = (): void => {
@@ -58,6 +74,18 @@ export default class Team {
     }
   };
 
+  public sortAndCreateUnitsForTurn = (): void => {
+    this.unitsInTurn.splice(0, this.unitsInTurn.length);
+    this.units.forEach((row) =>
+      row.forEach((unit) =>
+        !unit.getIsDead() && !unit.getIsParalyzed()
+          ? this.unitsInTurn.push(unit)
+          : null
+      )
+    );
+    this.unitsInTurn.sort((a, b) => b.getInitiative() - a.getInitiative());
+  };
+
   public getTeam = (): string => {
     return this.team;
   };
@@ -80,5 +108,9 @@ export default class Team {
 
   public getUnits = (): Array<Array<units>> => {
     return this.units;
+  };
+
+  public getUnitsInTurn = (): Array<units> => {
+    return this.unitsInTurn;
   };
 }

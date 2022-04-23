@@ -1,4 +1,6 @@
 import React from "react";
+import AttackTurn from "../../gameClasses/AttackTurn";
+import { units } from "../../gameClasses/services/RandomUnitGenerator";
 import Team from "../../gameClasses/Team";
 import RowOfCells from "../RowOfCells/RowOfCells";
 import {
@@ -13,12 +15,16 @@ interface ITeamUnits {
   unitOnHover: string;
   handleTurnChange: (team: string) => void;
   team: Team;
+  handleNewTurnAction: (team: Team) => void;
+  handleSetCurrentTarget: (unit: units) => void;
 }
 
 const TeamUnits: React.FC<ITeamUnits> = ({
   team,
   handleTurnChange,
   unitOnHover,
+  handleNewTurnAction,
+  handleSetCurrentTarget,
 }) => {
   const handleDefendButton = () => {
     team.defend();
@@ -28,10 +34,7 @@ const TeamUnits: React.FC<ITeamUnits> = ({
   };
 
   const handleAttackButton = () => {
-    team.attack();
-    if (team.getIsMyTurn()) {
-      handleTurnChange(team.getTeam());
-    }
+    handleNewTurnAction(team);
   };
 
   return (
@@ -43,6 +46,7 @@ const TeamUnits: React.FC<ITeamUnits> = ({
               rowOfUnits={rowOfUnits}
               key={index}
               unitOnHover={unitOnHover}
+              handleSetCurrentTarget={handleSetCurrentTarget}
             />
           );
         })}

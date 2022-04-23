@@ -18,7 +18,10 @@ export default class BomberUnit extends Unit {
     isParalyzeTarget: boolean = false,
     isDefending = false,
     isOnHover = false,
-    image: string = unitsImages.bomber
+    image: string = unitsImages.bomber,
+    position: Array<number>,
+    hasCompletedTheTurn: boolean = false,
+    possibleTargets: Array<string> = []
   ) {
     super(
       team,
@@ -36,7 +39,10 @@ export default class BomberUnit extends Unit {
       isParalyzeTarget,
       isDefending,
       isOnHover,
-      image
+      image,
+      position,
+      hasCompletedTheTurn,
+      possibleTargets
     );
   }
 }

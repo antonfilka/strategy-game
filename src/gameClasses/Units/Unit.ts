@@ -1,3 +1,5 @@
+import { units } from "../services/RandomUnitGenerator";
+
 export default class Unit {
   private id: string;
   private type: string;
@@ -15,6 +17,10 @@ export default class Unit {
   private team: string;
   private isOnHover: boolean;
   private image: string;
+  private position: Array<number>;
+  private hasCompletedTheTurn: boolean;
+  private possibleTargets: Array<units>;
+  private target: Array<units>;
 
   constructor(
     team: string,
@@ -32,7 +38,11 @@ export default class Unit {
     isParalyzeTarget: boolean,
     isDefending: boolean,
     isOnHover: boolean,
-    image: string
+    image: string,
+    position: Array<number>,
+    hasCompletedTheTurn: boolean,
+    possibleTargets: Array<units>,
+    target: Array<units>
   ) {
     this.team = team;
     this.id = id;
@@ -50,7 +60,23 @@ export default class Unit {
     this.isDefending = isDefending;
     this.isOnHover = isOnHover;
     this.image = image;
+    this.position = position;
+    this.hasCompletedTheTurn = hasCompletedTheTurn;
+    this.possibleTargets = possibleTargets;
+    this.target = target;
   }
+
+  public attack = (): number => {
+    if (this.possibleTargets.includes(this.target[0])) {
+      this.target[0].applyDamage(this.damage);
+      this.setHasCompletedTheTurn(true);
+      console.log("Attack completed");
+    } else {
+      console.log("You cant attack this unit");
+      return 0;
+    }
+    return 1;
+  };
 
   public getType = (): string => {
     return this.type;
@@ -158,6 +184,38 @@ export default class Unit {
 
   public setIsOnHover = (isOnHover: boolean) => {
     this.isOnHover = isOnHover;
+  };
+
+  public getPosition = () => {
+    return this.position;
+  };
+
+  public setPosition = (position: Array<number>) => {
+    this.position = position;
+  };
+
+  public getHasCompletedTheTurn = (): boolean => {
+    return this.hasCompletedTheTurn;
+  };
+
+  public setHasCompletedTheTurn = (hasCompletedTheTurn: boolean): void => {
+    this.hasCompletedTheTurn = hasCompletedTheTurn;
+  };
+
+  public getPossibleTargets = (): Array<units> => {
+    return this.possibleTargets;
+  };
+
+  public setPossibleTargets = (possibleTargets: Array<units>) => {
+    this.possibleTargets = possibleTargets;
+  };
+
+  public getTarget = (): Array<units> => {
+    return this.target;
+  };
+
+  public setTarget = (target: Array<units>) => {
+    this.target = target;
   };
 
   public getImage = (): string => {

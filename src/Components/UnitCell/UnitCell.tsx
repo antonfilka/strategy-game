@@ -16,9 +16,14 @@ import clsx from "clsx";
 type IUnitCell = {
   unitOnHover: string;
   cellUnit: units;
+  handleSetCurrentTarget: (unit: units) => void;
 };
 
-const UnitCell: React.FC<IUnitCell> = ({ cellUnit, unitOnHover }) => {
+const UnitCell: React.FC<IUnitCell> = ({
+  cellUnit,
+  unitOnHover,
+  handleSetCurrentTarget,
+}) => {
   const unit = cellUnit;
   const [isOnHover, setIsOnHover] = useState(false);
 
@@ -35,6 +40,10 @@ const UnitCell: React.FC<IUnitCell> = ({ cellUnit, unitOnHover }) => {
     unitOnHover === unit.getId() ? setIsOnHover(true) : setIsOnHover(false);
   });
 
+  const handleUnitClick = () => {
+    handleSetCurrentTarget(unit);
+  };
+
   return (
     <div
       className={clsx({
@@ -48,6 +57,7 @@ const UnitCell: React.FC<IUnitCell> = ({ cellUnit, unitOnHover }) => {
             ? "5px 5px 5px rgb(196, 107, 83, 0.9)"
             : "5px 5px 5px rgb(124, 96, 134, 0.9)",
       })}
+      onClick={handleUnitClick}
     >
       {unit.getIsDead() ? (
         <img

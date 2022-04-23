@@ -18,7 +18,10 @@ export default class SworderUnit extends Unit {
     isParalyzeTarget: boolean = false,
     isDefending = false,
     isOnHover = false,
-    image: string = unitsImages.sworder
+    image: string = unitsImages.sworder,
+    position: Array<number>,
+    hasCompletedTheTurn: boolean = false,
+    possibleTargets: Array<string> = []
   ) {
     super(
       team,
@@ -36,7 +39,10 @@ export default class SworderUnit extends Unit {
       isParalyzeTarget,
       isDefending,
       isOnHover,
-      image
+      image,
+      position,
+      hasCompletedTheTurn,
+      possibleTargets
     );
   }
 }

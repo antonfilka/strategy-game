@@ -40,8 +40,8 @@ export default class RandomUnitGenerator {
   constructor(props: IRandomUnitGenerator) {
     this.team = props.team;
   }
-  public getUnit = (): units => {
-    return new units[Math.floor(Math.random() * 9)](this.team);
-    // return new PirateUnit(this.team);
+  public getUnit = (position: Array<number>): units => {
+    // return new units[Math.floor(Math.random() * 9)](this.team, position);
+    return new PirateUnit(this.team, position);
   };
 }

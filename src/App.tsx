@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppWrapper, Arena, team } from "./App.css";
 import DynamicBackground from "./Components/DynamicBackground/DynamicBackground";
 import RoundInfo from "./Components/RoundInfo/RoundInfo";
 import TeamUnits from "./Components/TeamUnits/TeamUnits";
 import TurnPointer from "./Components/TurnPointer/TurnPointer";
+import AttackTurn from "./gameClasses/AttackTurn";
+import { units } from "./gameClasses/services/RandomUnitGenerator";
 import Team from "./gameClasses/Team";
 import TurnSwitcher from "./gameClasses/TurnSwitcher";
 import { teams } from "./gameClasses/Units/Unit";
@@ -13,6 +15,11 @@ const App: React.FC = () => {
   const [unitOnHover, setUnitOnHover] = useState<string>("");
   const [teamA, setTeamA] = useState(new Team({ team: teams.teamA }));
   const [teamB, setTeamB] = useState(new Team({ team: teams.teamB }));
+  const [attackTurn, setAttackTurn] = useState(
+    new AttackTurn({ teamA, teamB })
+  );
+  const [currentTurnActionNumber, setCurrentTurnActionNumber] = useState(1);
+  const [currentTarget, setCurrentTarget] = useState<units>();
 
   const turnSwitcher = new TurnSwitcher({ teamA: teamA, teamB: teamB });
 
@@ -21,6 +28,25 @@ const App: React.FC = () => {
     team === teams.teamA
       ? setCurrentTurn(teams.teamB)
       : setCurrentTurn(teams.teamA);
+  };
+
+  const handleNewTurnAction = (team: Team) => {
+    console.log("turn action triggered");
+    attackTurn.AttackTurn(team);
+    setCurrentTurnActionNumber((prev) => prev + 1);
+  };
+
+  const handleSetCurrentTarget = (unit: units) => {
+    setCurrentTarget(unit);
+    setCurrentTurnActionNumber((prev) => prev + 1);
+
+    attackTurn.setCurrentTarget(unit);
+    attackTurn.AttackTurn(currentTurn === teams.teamA ? teamA : teamB);
+
+    if (attackTurn.getAttackTurnIsCompleted()) {
+      turnSwitcher.Switch();
+      setAttackTurn(new AttackTurn({ teamA, teamB }));
+    }
   };
 
   return (
@@ -36,6 +62,8 @@ const App: React.FC = () => {
             team={teamA}
             handleTurnChange={handleTurnChange}
             unitOnHover={unitOnHover}
+            handleNewTurnAction={handleNewTurnAction}
+            handleSetCurrentTarget={handleSetCurrentTarget}
           />
         </div>
         <div className={team}>
@@ -43,6 +71,8 @@ const App: React.FC = () => {
             team={teamB}
             handleTurnChange={handleTurnChange}
             unitOnHover={unitOnHover}
+            handleNewTurnAction={handleNewTurnAction}
+            handleSetCurrentTarget={handleSetCurrentTarget}
           />
         </div>
       </div>

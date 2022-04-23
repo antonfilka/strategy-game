@@ -4,6 +4,7 @@ import { v4 } from "uuid";
 export default class PirateUnit extends Unit {
   constructor(
     team: string,
+    position: Array<number>,
     id: string = v4(),
     type: string = unitsTypes.melee,
     name: string = "Pirate",
@@ -18,7 +19,9 @@ export default class PirateUnit extends Unit {
     isParalyzeTarget: boolean = false,
     isDefending = false,
     isOnHover = false,
-    image: string = unitsImages.pirate
+    image: string = unitsImages.pirate,
+    hasCompletedTheTurn: boolean = false,
+    possibleTargets: Array<string> = []
   ) {
     super(
       team,
@@ -36,7 +39,10 @@ export default class PirateUnit extends Unit {
       isParalyzeTarget,
       isDefending,
       isOnHover,
-      image
+      image,
+      position,
+      hasCompletedTheTurn,
+      possibleTargets
     );
   }
 }
