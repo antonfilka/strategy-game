@@ -204,7 +204,10 @@ export default class AttackTurn {
 
     if (currentAttackingUnit.getType() === unitsTypes.melee) {
       this.definePossibleMeleeTargets(currentAttackingUnit, enemyTeam);
-    } else if (currentAttackingUnit.getType() === unitsTypes.range) {
+    } else if (
+      currentAttackingUnit.getType() === unitsTypes.range ||
+      currentAttackingUnit.getType() === unitsTypes.mage
+    ) {
       this.definePossibleRangeTargets(currentAttackingUnit, enemyTeam);
     } else if (currentAttackingUnit.getType() === unitsTypes.healerSingle) {
       this.definePossibleHealSingleTargets(currentAttackingUnit, attackingTeam);
