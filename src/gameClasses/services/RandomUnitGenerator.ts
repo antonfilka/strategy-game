@@ -19,7 +19,7 @@ export type units =
   | PriestUnit
   | SworderUnit;
 
-const units = [PirateUnit, SworderUnit, ArcherUnit, GunnerUnit];
+const units = [PirateUnit, SworderUnit, ArcherUnit, GunnerUnit, DoggyUnit];
 
 interface IRandomUnitGenerator {
   team: string;
@@ -31,7 +31,7 @@ export default class RandomUnitGenerator {
     this.team = props.team;
   }
   public getUnit = (position: Array<number>): units => {
-    return new units[Math.floor(Math.random() * 4)](this.team, position);
+    return new units[Math.floor(Math.random() * 5)](this.team, position);
     //  return new PirateUnit(this.team, position);
   };
 }

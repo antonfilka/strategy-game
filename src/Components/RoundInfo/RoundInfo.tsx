@@ -31,24 +31,28 @@ const RoundInfo: React.FC<IRoundInfo> = ({
   return (
     <div className={roundInfoWrapper}>
       {currentTurn === teams.teamA
-        ? unitsA.map((unit, index) => (
-            <SideBarUnitCell
-              cellUnit={unit}
-              key={index}
-              unitOnHover={unitOnHover}
-              setUnitOnHover={setUnitOnHover}
-            />
-          ))
+        ? unitsA.map((unit, index) =>
+            !unit.getIsDead() ? (
+              <SideBarUnitCell
+                cellUnit={unit}
+                key={index}
+                unitOnHover={unitOnHover}
+                setUnitOnHover={setUnitOnHover}
+              />
+            ) : null
+          )
         : null}
       {currentTurn === teams.teamB
-        ? unitsB.map((unit, index) => (
-            <SideBarUnitCell
-              cellUnit={unit}
-              key={index}
-              unitOnHover={unitOnHover}
-              setUnitOnHover={setUnitOnHover}
-            />
-          ))
+        ? unitsB.map((unit, index) =>
+            !unit.getIsDead() ? (
+              <SideBarUnitCell
+                cellUnit={unit}
+                key={index}
+                unitOnHover={unitOnHover}
+                setUnitOnHover={setUnitOnHover}
+              />
+            ) : null
+          )
         : null}
     </div>
   );

@@ -118,6 +118,15 @@ export default class Unit {
     this.currentHp <= 0 ? this.setIsDead(true) : null;
   };
 
+  public applyHeal = (heal: number) => {
+    if (!this.isDead && !this.isParalyzed) {
+      this.currentHp += heal;
+      if (this.currentHp > this.maxHp) {
+        this.currentHp = this.maxHp;
+      }
+    }
+  };
+
   public getMaxHp = (): number => {
     return this.maxHp;
   };

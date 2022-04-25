@@ -1,5 +1,6 @@
 import { units } from "./services/RandomUnitGenerator";
 import Team from "./Team";
+import DoggyUnit from "./Units/DoggyUnit";
 import PirateUnit from "./Units/PirateUnit";
 import { teams, unitsTypes } from "./Units/Unit";
 
@@ -148,6 +149,32 @@ export default class AttackTurn {
     unit.setPossibleTargets(possibleTargets);
   };
 
+  public definePossibleHealSingleTargets = (unit: units, myTeam: Team) => {
+    unit.getPossibleTargets().length > 0 && !this.currentTarget
+      ? alert("choose target to heal")
+      : null;
+    const possibleTargets: Array<units> = [];
+
+    myTeam.getUnits().forEach((unitRow) =>
+      unitRow.forEach((myUnit) => {
+        if (!myUnit.getIsDead() && myUnit !== unit) {
+          myUnit.setIsHealTarget(true);
+          possibleTargets.push(myUnit);
+        }
+      })
+    );
+    if (possibleTargets.length === 0) {
+      unit.setHasCompletedTheTurn(true);
+      unit.setIsCurrentUnit(false);
+      alert("This unit stands too far to attack anybody");
+      this.checkIsTheLastUnit(
+        myTeam.getTeam() === teams.teamB ? this.teamB : this.teamA,
+        unit
+      );
+    }
+    unit.setPossibleTargets(possibleTargets);
+  };
+
   public AttackTurnPrepare = (attackingTeam: Team): units | void => {
     //  ? prepare units who are not dead and not paralyzed
     attackingTeam.sortAndCreateUnitsForTurn();
@@ -179,17 +206,26 @@ export default class AttackTurn {
       this.definePossibleMeleeTargets(currentAttackingUnit, enemyTeam);
     } else if (currentAttackingUnit.getType() === unitsTypes.range) {
       this.definePossibleRangeTargets(currentAttackingUnit, enemyTeam);
+    } else if (currentAttackingUnit.getType() === unitsTypes.healerSingle) {
+      this.definePossibleHealSingleTargets(currentAttackingUnit, attackingTeam);
     }
 
     return currentAttackingUnit;
   };
 
-  public cleanTargetsHighlights = (attackingTeam: string) => {
-    let teamToClean = attackingTeam === teams.teamA ? this.teamB : this.teamA;
-
-    teamToClean.getUnits().forEach((untiRow) =>
+  public cleanTargetsHighlights = () => {
+    this.teamA.getUnits().forEach((untiRow) =>
       untiRow.forEach((unit) => {
         unit.setIsAttackTarget(false);
+        unit.setIsHealTarget(false);
+        unit.setIsParalyzeTarget(false);
+      })
+    );
+
+    this.teamB.getUnits().forEach((untiRow) =>
+      untiRow.forEach((unit) => {
+        unit.setIsAttackTarget(false);
+        unit.setIsHealTarget(false);
         unit.setIsParalyzeTarget(false);
       })
     );
@@ -224,14 +260,19 @@ export default class AttackTurn {
     currentAttackingUnit.setTarget([this.currentTarget]);
 
     let attackResult = 0;
-    attackResult = currentAttackingUnit.attack();
 
-    if (attackResult) {
-      this.cleanTargetsHighlights(attackingTeam.getTeam());
+    if (currentAttackingUnit instanceof DoggyUnit) {
+      attackResult = currentAttackingUnit.healUnit();
+    } else {
+      attackResult = currentAttackingUnit.attack();
     }
+
     this.setCurrentTarget(null);
 
-    this.checkIsTheLastUnit(attackingTeam, currentAttackingUnit);
+    if (attackResult) {
+      this.cleanTargetsHighlights();
+      this.checkIsTheLastUnit(attackingTeam, currentAttackingUnit);
+    }
   };
 
   private checkIsTheLastUnit = (
