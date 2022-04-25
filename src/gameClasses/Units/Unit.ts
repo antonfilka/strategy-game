@@ -76,7 +76,7 @@ export default class Unit {
       this.setIsCurrentUnit(false);
       console.log("Attack completed");
     } else {
-      console.log("You cant attack this unit");
+      alert("You cant attack this unit");
       return 0;
     }
     return 1;

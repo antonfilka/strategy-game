@@ -32,13 +32,6 @@ const App: React.FC = () => {
 
   const handleNewTurnAction = (team: Team) => {
     if (team.getTeam() === currentTurn) {
-      if (attackTurn.getAttackTurnIsCompleted()) {
-        handleTurnChange(team.getTeam());
-
-        setAttackTurn(new AttackTurn({ teamA, teamB }));
-        return;
-      }
-
       console.log("turn action triggered");
       attackTurn.AttackTurn(team);
       setCurrentTurnActionNumber((prev) => prev + 1);
@@ -54,6 +47,11 @@ const App: React.FC = () => {
     attackTurn.setCurrentTarget(unit);
     attackTurn.AttackTurn(currentTurn === teams.teamA ? teamA : teamB);
   };
+
+  if (attackTurn.getAttackTurnIsCompleted()) {
+    handleTurnChange(currentTurn);
+    setAttackTurn(new AttackTurn({ teamA, teamB }));
+  }
 
   return (
     <div className={AppWrapper}>

@@ -62,15 +62,21 @@ export default class AttackTurn {
       })
     );
 
+    //  ? if no targets -> exit
     if (possibleTargets.length === 0) {
       unit.setHasCompletedTheTurn(true);
       unit.setIsCurrentUnit(false);
       alert("This unit stands too far to attack anybody");
+      this.checkIsTheLastUnit(
+        enemyTeam.getTeam() === teams.teamA ? this.teamB : this.teamA,
+        unit
+      );
     }
     unit.setPossibleTargets(possibleTargets);
   };
 
   public AttackTurnPrepare = (attackingTeam: Team): units | void => {
+    //  ? prepare units who are not dead and not paralyzed
     attackingTeam.sortAndCreateUnitsForTurn();
 
     let enemyTeam =
@@ -81,6 +87,7 @@ export default class AttackTurn {
         .getUnitsInTurn()
         .find((unit) => !unit.getHasCompletedTheTurn()) || false;
 
+    //  ? exit if no attacking unit at the moment
     if (!currentAttackingUnit) {
       console.log("no curr unit", attackingTeam);
       return;
@@ -88,6 +95,7 @@ export default class AttackTurn {
 
     currentAttackingUnit.setIsCurrentUnit(true);
 
+    //  ? define targets for this unit
     this.definePossibleMeleeTargets(currentAttackingUnit, enemyTeam);
 
     return currentAttackingUnit;
@@ -105,8 +113,10 @@ export default class AttackTurn {
   };
 
   public AttackTurn = (attackingTeam: Team) => {
+    //  ? main attack method
     let currentAttackingUnit = this.AttackTurnPrepare(attackingTeam);
 
+    //  ? if no units to use -> null flags
     if (!currentAttackingUnit) {
       this.setAttackTurnIsCompleted(true);
       attackingTeam.getUnits().forEach((untiRow) =>
@@ -118,37 +128,43 @@ export default class AttackTurn {
       return;
     }
 
-    if (currentAttackingUnit.getHasCompletedTheTurn()) {
+    if (!this.currentTarget) {
+      console.log("select target ");
       return;
-    } else {
-      if (!this.currentTarget) {
-        console.log("select target ");
-        return;
-      }
-      currentAttackingUnit.setTarget([this.currentTarget]);
-      let attackResult = 0;
-      attackResult = currentAttackingUnit.attack();
-      if (attackResult) {
-        this.cleanTargetsHighlights(attackingTeam.getTeam());
-        currentAttackingUnit.setIsCurrentUnit(false);
-      }
-      this.setCurrentTarget(null);
+    }
 
-      if (
-        attackingTeam
-          .getUnitsInTurn()
-          .findIndex((unit) => unit === currentAttackingUnit) ===
-        attackingTeam.getUnitsInTurn().length - 1
-      ) {
-        console.log("Turn is completed");
-        this.setAttackTurnIsCompleted(true);
-        attackingTeam.getUnits().forEach((untiRow) =>
-          untiRow.forEach((unit) => {
-            unit.setHasCompletedTheTurn(false);
-            unit.setPossibleTargets([]);
-          })
-        );
-      }
+    currentAttackingUnit.setTarget([this.currentTarget]);
+
+    let attackResult = 0;
+    attackResult = currentAttackingUnit.attack();
+
+    if (attackResult) {
+      this.cleanTargetsHighlights(attackingTeam.getTeam());
+      currentAttackingUnit.setIsCurrentUnit(false);
+    }
+    this.setCurrentTarget(null);
+
+    this.checkIsTheLastUnit(attackingTeam, currentAttackingUnit);
+  };
+
+  private checkIsTheLastUnit = (
+    attackingTeam: Team,
+    currentAttackingUnit: units
+  ): void => {
+    if (
+      attackingTeam
+        .getUnitsInTurn()
+        .findIndex((unit) => unit === currentAttackingUnit) ===
+      attackingTeam.getUnitsInTurn().length - 1
+    ) {
+      console.log("Turn is completed");
+      this.setAttackTurnIsCompleted(true);
+      attackingTeam.getUnits().forEach((untiRow) =>
+        untiRow.forEach((unit) => {
+          unit.setHasCompletedTheTurn(false);
+          unit.setPossibleTargets([]);
+        })
+      );
     }
   };
 
