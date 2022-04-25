@@ -4,6 +4,7 @@ import { assignInlineVars } from "@vanilla-extract/dynamic";
 import {
   cellWrapper,
   cellWrapperOnMouseOver,
+  currentImage,
   deadImage,
   defendImage,
   hp,
@@ -59,6 +60,12 @@ const UnitCell: React.FC<IUnitCell> = ({
       })}
       onClick={handleUnitClick}
     >
+      {unit.getIsCurrentUnit() ? (
+        <img
+          src="https://cdn-icons.flaticon.com/png/512/2147/premium/2147238.png?token=exp=1650730084~hmac=d4bf7433552dfdf651e4a76fa8dce5b3"
+          className={currentImage}
+        />
+      ) : null}
       {unit.getIsDead() ? (
         <img
           src="https://icons-for-free.com/download-icon-dead+death+grave+graveyard+halloween+scary+icon-1320183477745266883_512.png"

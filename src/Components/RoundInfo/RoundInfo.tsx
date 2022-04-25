@@ -26,26 +26,30 @@ const RoundInfo: React.FC<IRoundInfo> = ({
     <div className={roundInfoWrapper}>
       {turnSwitcher.getTeamA().getIsMyTurn()
         ? unitsA.map((rowOfUnits) =>
-            rowOfUnits.map((unit, index) => (
-              <SideBarUnitCell
-                cellUnit={unit}
-                key={index}
-                unitOnHover={unitOnHover}
-                setUnitOnHover={setUnitOnHover}
-              />
-            ))
+            rowOfUnits.map((unit, index) =>
+              unit.getIsDead() ? null : (
+                <SideBarUnitCell
+                  cellUnit={unit}
+                  key={index}
+                  unitOnHover={unitOnHover}
+                  setUnitOnHover={setUnitOnHover}
+                />
+              )
+            )
           )
         : null}
       {turnSwitcher.getTeamB().getIsMyTurn()
         ? unitsB.map((rowOfUnits) =>
-            rowOfUnits.map((unit, index) => (
-              <SideBarUnitCell
-                cellUnit={unit}
-                key={index}
-                unitOnHover={unitOnHover}
-                setUnitOnHover={setUnitOnHover}
-              />
-            ))
+            rowOfUnits.map((unit, index) =>
+              unit.getIsDead() ? null : (
+                <SideBarUnitCell
+                  cellUnit={unit}
+                  key={index}
+                  unitOnHover={unitOnHover}
+                  setUnitOnHover={setUnitOnHover}
+                />
+              )
+            )
           )
         : null}
     </div>

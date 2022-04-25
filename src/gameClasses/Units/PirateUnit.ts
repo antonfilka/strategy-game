@@ -1,4 +1,5 @@
 import Unit, { unitsImages, unitsTypes } from "./Unit";
+import { units } from "../services/RandomUnitGenerator";
 import { v4 } from "uuid";
 
 export default class PirateUnit extends Unit {
@@ -21,10 +22,13 @@ export default class PirateUnit extends Unit {
     isOnHover = false,
     image: string = unitsImages.pirate,
     hasCompletedTheTurn: boolean = false,
-    possibleTargets: Array<string> = []
+    possibleTargets: Array<units> = [],
+    target: units[],
+    isCurrentUnit: boolean
   ) {
     super(
       team,
+      position,
       id,
       type,
       name,
@@ -40,9 +44,11 @@ export default class PirateUnit extends Unit {
       isDefending,
       isOnHover,
       image,
-      position,
+
       hasCompletedTheTurn,
-      possibleTargets
+      possibleTargets,
+      target,
+      isCurrentUnit
     );
   }
 }

@@ -21,16 +21,13 @@ interface ITeamUnits {
 
 const TeamUnits: React.FC<ITeamUnits> = ({
   team,
-  handleTurnChange,
   unitOnHover,
   handleNewTurnAction,
   handleSetCurrentTarget,
 }) => {
   const handleDefendButton = () => {
-    team.defend();
-    if (team.getIsMyTurn()) {
-      handleTurnChange(team.getTeam());
-    }
+    handleNewTurnAction(team);
+    team.setIsDefending(true);
   };
 
   const handleAttackButton = () => {

@@ -1,11 +1,13 @@
 import { units } from "../services/RandomUnitGenerator";
 
 export default class Unit {
+  private team: string;
+  private position: Array<number>;
   private id: string;
   private type: string;
   private name: string;
-  private currentHp: number;
   private maxHp: number;
+  private currentHp: number;
   private damage: number;
   private initiative: number;
   private isParalyzed: boolean;
@@ -14,21 +16,21 @@ export default class Unit {
   private isHealTarget: boolean;
   private isParalyzeTarget: boolean;
   private isDefending: boolean;
-  private team: string;
   private isOnHover: boolean;
   private image: string;
-  private position: Array<number>;
   private hasCompletedTheTurn: boolean;
   private possibleTargets: Array<units>;
   private target: Array<units>;
+  private isCurrentUnit: boolean;
 
   constructor(
     team: string,
+    position: Array<number>,
     id: string,
     type: string,
     name: string,
-    currentHp: number,
     maxHp: number,
+    currentHp: number,
     damage: number,
     initiative: number,
     isParalyzed: boolean,
@@ -39,17 +41,18 @@ export default class Unit {
     isDefending: boolean,
     isOnHover: boolean,
     image: string,
-    position: Array<number>,
     hasCompletedTheTurn: boolean,
     possibleTargets: Array<units>,
-    target: Array<units>
+    target: Array<units>,
+    isCurrentUnit: boolean
   ) {
     this.team = team;
+    this.position = position;
     this.id = id;
     this.type = type;
     this.name = name;
-    this.currentHp = currentHp;
     this.maxHp = maxHp;
+    this.currentHp = currentHp;
     this.damage = damage;
     this.initiative = initiative;
     this.isParalyzed = isParalyzed;
@@ -60,22 +63,29 @@ export default class Unit {
     this.isDefending = isDefending;
     this.isOnHover = isOnHover;
     this.image = image;
-    this.position = position;
     this.hasCompletedTheTurn = hasCompletedTheTurn;
     this.possibleTargets = possibleTargets;
     this.target = target;
+    this.isCurrentUnit = isCurrentUnit;
   }
 
   public attack = (): number => {
     if (this.possibleTargets.includes(this.target[0])) {
       this.target[0].applyDamage(this.damage);
       this.setHasCompletedTheTurn(true);
+      this.setIsCurrentUnit(false);
       console.log("Attack completed");
     } else {
       console.log("You cant attack this unit");
       return 0;
     }
     return 1;
+  };
+
+  public defend = (): void => {
+    this.setIsDefending(true);
+    this.setHasCompletedTheTurn(true);
+    this.setIsCurrentUnit(false);
   };
 
   public getType = (): string => {
@@ -220,6 +230,14 @@ export default class Unit {
 
   public getImage = (): string => {
     return this.image;
+  };
+
+  public getIsCurrentUnit = (): boolean => {
+    return this.isCurrentUnit;
+  };
+
+  public setIsCurrentUnit = (isCurrentUnit: boolean) => {
+    this.isCurrentUnit = isCurrentUnit;
   };
 }
 

@@ -11,15 +11,13 @@ export default class Team {
   private isDefending: boolean;
   private units: Array<Array<units>>;
   private generator;
-  private unitsInTurn: Array<units>;
+  private unitsInTurn: Array<units> = [];
 
   constructor(props: ITeam) {
     this.team = props.team;
     this.isMyTurn = props.team === teams.teamB ? false : true;
     this.isDefending = false;
     this.generator = new RandomUnitGenerator({ team: this.team });
-    this.unitsInTurn = [];
-
     this.units =
       this.team === teams.teamA
         ? [
@@ -46,6 +44,7 @@ export default class Team {
               this.generator.getUnit([4, 3]),
             ],
           ];
+    this.sortAndCreateUnitsForTurn();
   }
 
   public defend = (): void => {

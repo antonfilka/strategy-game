@@ -66,6 +66,14 @@ export const defendImage = style({
   opacity: "0.9",
 });
 
+export const currentImage = style({
+  top: 10,
+  right: 10,
+  position: "absolute",
+  width: "18%",
+  opacity: "0.9",
+});
+
 export const hpBackground = style({
   position: "absolute",
   zIndex: -1,
