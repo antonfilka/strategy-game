@@ -35,24 +35,71 @@ export default class AttackTurn {
           let columnDiff = Math.abs(
             enemyUnit.getPosition()[1] - unit.getPosition()[1]
           );
-          if (columnDiff <= 1 && columnDiff >= -1) {
+          if (columnDiff <= 1) {
             if (!enemyUnit.getIsDead()) {
               enemyUnit.setIsAttackTarget(true);
               possibleTargets.push(enemyUnit);
             }
-          } else {
+          } else if (columnDiff === 2) {
+            if (enemyUnit.getPosition()[1] === 3) {
+              let unitIsReachable = false;
+              if (enemyUnit.getTeam() === teams.teamB) {
+                enemyTeam.getUnits()[0][0].getIsDead() &&
+                enemyTeam.getUnits()[0][1].getIsDead()
+                  ? (unitIsReachable = true)
+                  : (unitIsReachable = false);
+              } else {
+                enemyTeam.getUnits()[1][0].getIsDead() &&
+                enemyTeam.getUnits()[1][1].getIsDead()
+                  ? (unitIsReachable = true)
+                  : (unitIsReachable = false);
+              }
+              if (unitIsReachable) {
+                if (!enemyUnit.getIsDead()) {
+                  enemyUnit.setIsAttackTarget(true);
+                  possibleTargets.push(enemyUnit);
+                }
+              }
+            } else if (enemyUnit.getPosition()[1] === 1) {
+              let unitIsReachable = false;
+              if (enemyUnit.getTeam() === teams.teamB) {
+                enemyTeam.getUnits()[0][1].getIsDead() &&
+                enemyTeam.getUnits()[0][2].getIsDead()
+                  ? (unitIsReachable = true)
+                  : (unitIsReachable = false);
+              } else {
+                enemyTeam.getUnits()[1][1].getIsDead() &&
+                enemyTeam.getUnits()[1][2].getIsDead()
+                  ? (unitIsReachable = true)
+                  : (unitIsReachable = false);
+              }
+              if (unitIsReachable) {
+                if (!enemyUnit.getIsDead()) {
+                  enemyUnit.setIsAttackTarget(true);
+                  possibleTargets.push(enemyUnit);
+                }
+              }
+            }
           }
-        } else {
-          let clearRow = false;
-          rowOfEnemyUnits.forEach((enemyUnit) =>
-            enemyUnit.getPosition()[0] === 1 && enemyUnit.getIsDead()
-              ? (clearRow = true)
-              : (clearRow = false)
-          );
-          let columnDiff = Math.abs(
-            enemyUnit.getPosition()[1] - unit.getPosition()[1]
-          );
-          if (clearRow && columnDiff >= -1) {
+        } else if (rowDiff === 2) {
+          let secondRowIsReachable = true;
+          enemyUnit.getTeam() === teams.teamB
+            ? enemyTeam
+                .getUnits()[0]
+                .forEach((enemyUnit) =>
+                  enemyUnit.getIsDead()
+                    ? (secondRowIsReachable = secondRowIsReachable && true)
+                    : (secondRowIsReachable = secondRowIsReachable && false)
+                )
+            : enemyTeam
+                .getUnits()[1]
+                .forEach((enemyUnit) =>
+                  enemyUnit.getIsDead()
+                    ? (secondRowIsReachable = secondRowIsReachable && true)
+                    : (secondRowIsReachable = secondRowIsReachable && false)
+                );
+
+          if (secondRowIsReachable) {
             if (!enemyUnit.getIsDead()) {
               enemyUnit.setIsAttackTarget(true);
               possibleTargets.push(enemyUnit);
@@ -100,7 +147,6 @@ export default class AttackTurn {
       attackingTeam.setIsDefending(false);
       return currentAttackingUnit;
     }
-    console.log("team is def ", attackingTeam.getIsDefending());
 
     //  ? define targets for this unit
     this.definePossibleMeleeTargets(currentAttackingUnit, enemyTeam);
