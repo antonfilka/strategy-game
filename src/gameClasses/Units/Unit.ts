@@ -119,7 +119,7 @@ export default class Unit {
   };
 
   public applyHeal = (heal: number) => {
-    if (!this.isDead && !this.isParalyzed) {
+    if (!this.isDead) {
       this.currentHp += heal;
       if (this.currentHp > this.maxHp) {
         this.currentHp = this.maxHp;

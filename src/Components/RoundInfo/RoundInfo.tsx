@@ -32,7 +32,7 @@ const RoundInfo: React.FC<IRoundInfo> = ({
     <div className={roundInfoWrapper}>
       {currentTurn === teams.teamA
         ? unitsA.map((unit, index) =>
-            !unit.getIsDead() ? (
+            !unit.getIsDead() && !unit.getIsParalyzed() ? (
               <SideBarUnitCell
                 cellUnit={unit}
                 key={index}
@@ -44,7 +44,7 @@ const RoundInfo: React.FC<IRoundInfo> = ({
         : null}
       {currentTurn === teams.teamB
         ? unitsB.map((unit, index) =>
-            !unit.getIsDead() ? (
+            !unit.getIsDead() && !unit.getIsParalyzed() ? (
               <SideBarUnitCell
                 cellUnit={unit}
                 key={index}

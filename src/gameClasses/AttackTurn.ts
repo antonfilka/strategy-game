@@ -2,6 +2,7 @@ import { units } from "./services/RandomUnitGenerator";
 import Team from "./Team";
 import DoggyUnit from "./Units/DoggyUnit";
 import PirateUnit from "./Units/PirateUnit";
+import PriestUnit from "./Units/PriestUnit";
 import { teams, unitsTypes } from "./Units/Unit";
 
 interface IAttackTurn {
@@ -132,7 +133,9 @@ export default class AttackTurn {
     enemyTeam.getUnits().forEach((unitRow) =>
       unitRow.forEach((enemyUnit) => {
         if (!enemyUnit.getIsDead()) {
-          enemyUnit.setIsAttackTarget(true);
+          unit.getType() === unitsTypes.paralyzer
+            ? enemyUnit.setIsParalyzeTarget(true)
+            : enemyUnit.setIsAttackTarget(true);
           possibleTargets.push(enemyUnit);
         }
       })
@@ -149,7 +152,7 @@ export default class AttackTurn {
     unit.setPossibleTargets(possibleTargets);
   };
 
-  public definePossibleHealSingleTargets = (unit: units, myTeam: Team) => {
+  public definePossibleHealTargets = (unit: units, myTeam: Team) => {
     unit.getPossibleTargets().length > 0 && !this.currentTarget
       ? alert("choose target to heal")
       : null;
@@ -206,13 +209,16 @@ export default class AttackTurn {
       this.definePossibleMeleeTargets(currentAttackingUnit, enemyTeam);
     } else if (
       currentAttackingUnit.getType() === unitsTypes.range ||
-      currentAttackingUnit.getType() === unitsTypes.mage
+      currentAttackingUnit.getType() === unitsTypes.mage ||
+      currentAttackingUnit.getType() === unitsTypes.paralyzer
     ) {
       this.definePossibleRangeTargets(currentAttackingUnit, enemyTeam);
-    } else if (currentAttackingUnit.getType() === unitsTypes.healerSingle) {
-      this.definePossibleHealSingleTargets(currentAttackingUnit, attackingTeam);
+    } else if (
+      currentAttackingUnit.getType() === unitsTypes.healerSingle ||
+      currentAttackingUnit.getType() === unitsTypes.healerMass
+    ) {
+      this.definePossibleHealTargets(currentAttackingUnit, attackingTeam);
     }
-
     return currentAttackingUnit;
   };
 
@@ -264,7 +270,10 @@ export default class AttackTurn {
 
     let attackResult = 0;
 
-    if (currentAttackingUnit instanceof DoggyUnit) {
+    if (
+      currentAttackingUnit instanceof DoggyUnit ||
+      currentAttackingUnit instanceof PriestUnit
+    ) {
       attackResult = currentAttackingUnit.healUnit();
     } else {
       attackResult = currentAttackingUnit.attack();

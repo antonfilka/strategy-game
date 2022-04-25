@@ -1,10 +1,12 @@
 import Unit, { unitsImages, unitsTypes } from "./Unit";
 import { v4 } from "uuid";
+import { units } from "../services/RandomUnitGenerator";
 
 export default class PriestUnit extends Unit {
-  private heal: number = 25;
+  private heal: number = 40;
   constructor(
     team: string,
+    position: Array<number>,
     id: string = v4(),
     type: string = unitsTypes.healerMass,
     name: string = "Priest",
@@ -20,12 +22,14 @@ export default class PriestUnit extends Unit {
     isDefending = false,
     isOnHover = false,
     image: string = unitsImages.priest,
-    position: Array<number>,
     hasCompletedTheTurn: boolean = false,
-    possibleTargets: Array<string> = []
+    possibleTargets: Array<units> = [],
+    target: units[],
+    isCurrentUnit: boolean
   ) {
     super(
       team,
+      position,
       id,
       type,
       name,
@@ -41,9 +45,25 @@ export default class PriestUnit extends Unit {
       isDefending,
       isOnHover,
       image,
-      position,
       hasCompletedTheTurn,
-      possibleTargets
+      possibleTargets,
+      target,
+      isCurrentUnit
     );
   }
+
+  public healUnit = (): number => {
+    if (this.getPossibleTargets().includes(this.getTarget()[0])) {
+      this.getPossibleTargets().forEach((unitToHeal) =>
+        unitToHeal.applyHeal(this.heal)
+      );
+      this.setHasCompletedTheTurn(true);
+      this.setIsCurrentUnit(false);
+      console.log("Heal completed");
+    } else {
+      alert("You cant Heal this unit");
+      return 0;
+    }
+    return 1;
+  };
 }

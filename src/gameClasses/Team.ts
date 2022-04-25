@@ -91,6 +91,12 @@ export default class Team {
     );
   };
 
+  public cleanUnitsParalyzedFlag = (): void => {
+    this.units.forEach((unitRow) =>
+      unitRow.forEach((unit) => unit.setIsParalyzed(false))
+    );
+  };
+
   public getTeam = (): string => {
     return this.team;
   };

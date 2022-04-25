@@ -28,9 +28,11 @@ const App: React.FC = () => {
     if (team === teams.teamA) {
       setCurrentTurn(teams.teamB);
       teamB.cleanUnitsDefendingFlag();
+      teamA.cleanUnitsParalyzedFlag();
     } else {
       setCurrentTurn(teams.teamA);
       teamA.cleanUnitsDefendingFlag();
+      teamB.cleanUnitsParalyzedFlag();
     }
   };
 
