@@ -60,7 +60,9 @@ const App: React.FC = () => {
   return (
     <div className={AppWrapper}>
       <RoundInfo
-        turnSwitcher={turnSwitcher}
+        teamA={teamA}
+        teamB={teamB}
+        currentTurn={currentTurn}
         unitOnHover={unitOnHover}
         setUnitOnHover={setUnitOnHover}
       />

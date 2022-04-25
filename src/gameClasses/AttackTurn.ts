@@ -1,7 +1,7 @@
 import { units } from "./services/RandomUnitGenerator";
 import Team from "./Team";
 import PirateUnit from "./Units/PirateUnit";
-import { teams } from "./Units/Unit";
+import { teams, unitsTypes } from "./Units/Unit";
 
 interface IAttackTurn {
   teamA: Team;
@@ -122,6 +122,32 @@ export default class AttackTurn {
     unit.setPossibleTargets(possibleTargets);
   };
 
+  public definePossibleRangeTargets = (unit: units, enemyTeam: Team) => {
+    unit.getPossibleTargets().length > 0 && !this.currentTarget
+      ? alert("choose target and attack it")
+      : null;
+    const possibleTargets: Array<units> = [];
+
+    enemyTeam.getUnits().forEach((unitRow) =>
+      unitRow.forEach((enemyUnit) => {
+        if (!enemyUnit.getIsDead()) {
+          enemyUnit.setIsAttackTarget(true);
+          possibleTargets.push(enemyUnit);
+        }
+      })
+    );
+    if (possibleTargets.length === 0) {
+      unit.setHasCompletedTheTurn(true);
+      unit.setIsCurrentUnit(false);
+      alert("This unit stands too far to attack anybody");
+      this.checkIsTheLastUnit(
+        enemyTeam.getTeam() === teams.teamA ? this.teamB : this.teamA,
+        unit
+      );
+    }
+    unit.setPossibleTargets(possibleTargets);
+  };
+
   public AttackTurnPrepare = (attackingTeam: Team): units | void => {
     //  ? prepare units who are not dead and not paralyzed
     attackingTeam.sortAndCreateUnitsForTurn();
@@ -136,7 +162,6 @@ export default class AttackTurn {
 
     //  ? exit if no attacking unit at the moment
     if (!currentAttackingUnit) {
-      console.log("no curr unit", attackingTeam);
       return;
     }
 
@@ -149,7 +174,12 @@ export default class AttackTurn {
     }
 
     //  ? define targets for this unit
-    this.definePossibleMeleeTargets(currentAttackingUnit, enemyTeam);
+
+    if (currentAttackingUnit.getType() === unitsTypes.melee) {
+      this.definePossibleMeleeTargets(currentAttackingUnit, enemyTeam);
+    } else if (currentAttackingUnit.getType() === unitsTypes.range) {
+      this.definePossibleRangeTargets(currentAttackingUnit, enemyTeam);
+    }
 
     return currentAttackingUnit;
   };

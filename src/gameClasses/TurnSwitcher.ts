@@ -1,5 +1,4 @@
 import Team from "./Team";
-import { teams } from "./Units/Unit";
 
 interface ITurnSwitcher {
   teamA: Team;

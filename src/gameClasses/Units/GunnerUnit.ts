@@ -1,9 +1,11 @@
 import Unit, { unitsImages, unitsTypes } from "./Unit";
 import { v4 } from "uuid";
+import { units } from "../services/RandomUnitGenerator";
 
 export default class GunnerUnit extends Unit {
   constructor(
     team: string,
+    position: Array<number>,
     id: string = v4(),
     type: string = unitsTypes.range,
     name: string = "Gunner",
@@ -19,12 +21,14 @@ export default class GunnerUnit extends Unit {
     isDefending = false,
     isOnHover = false,
     image: string = unitsImages.gunner,
-    position: Array<number>,
     hasCompletedTheTurn: boolean = false,
-    possibleTargets: Array<string> = []
+    possibleTargets: Array<units> = [],
+    target: units[],
+    isCurrentUnit: boolean
   ) {
     super(
       team,
+      position,
       id,
       type,
       name,
@@ -40,9 +44,10 @@ export default class GunnerUnit extends Unit {
       isDefending,
       isOnHover,
       image,
-      position,
       hasCompletedTheTurn,
-      possibleTargets
+      possibleTargets,
+      target,
+      isCurrentUnit
     );
   }
 }
