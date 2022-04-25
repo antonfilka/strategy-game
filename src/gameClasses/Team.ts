@@ -76,13 +76,19 @@ export default class Team {
   public sortAndCreateUnitsForTurn = (): void => {
     this.unitsInTurn.splice(0, this.unitsInTurn.length);
     this.units.forEach((row) =>
-      row.forEach((unit) =>
+      row.forEach((unit) => {
         !unit.getIsDead() && !unit.getIsParalyzed()
           ? this.unitsInTurn.push(unit)
-          : null
-      )
+          : null;
+      })
     );
     this.unitsInTurn.sort((a, b) => b.getInitiative() - a.getInitiative());
+  };
+
+  public cleanUnitsDefendingFlag = (): void => {
+    this.units.forEach((unitRow) =>
+      unitRow.forEach((unit) => unit.setIsDefending(false))
+    );
   };
 
   public getTeam = (): string => {

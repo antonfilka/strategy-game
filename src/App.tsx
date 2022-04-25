@@ -25,9 +25,13 @@ const App: React.FC = () => {
 
   const handleTurnChange = (team: string) => {
     turnSwitcher.Switch();
-    team === teams.teamA
-      ? setCurrentTurn(teams.teamB)
-      : setCurrentTurn(teams.teamA);
+    if (team === teams.teamA) {
+      setCurrentTurn(teams.teamB);
+      teamB.cleanUnitsDefendingFlag();
+    } else {
+      setCurrentTurn(teams.teamA);
+      teamA.cleanUnitsDefendingFlag();
+    }
   };
 
   const handleNewTurnAction = (team: Team) => {

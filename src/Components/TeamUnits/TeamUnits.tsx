@@ -26,8 +26,8 @@ const TeamUnits: React.FC<ITeamUnits> = ({
   handleSetCurrentTarget,
 }) => {
   const handleDefendButton = () => {
-    handleNewTurnAction(team);
     team.setIsDefending(true);
+    handleNewTurnAction(team);
   };
 
   const handleAttackButton = () => {

@@ -95,6 +95,13 @@ export default class AttackTurn {
 
     currentAttackingUnit.setIsCurrentUnit(true);
 
+    if (attackingTeam.getIsDefending()) {
+      currentAttackingUnit.defend();
+      attackingTeam.setIsDefending(false);
+      return currentAttackingUnit;
+    }
+    console.log("team is def ", attackingTeam.getIsDefending());
+
     //  ? define targets for this unit
     this.definePossibleMeleeTargets(currentAttackingUnit, enemyTeam);
 
@@ -128,6 +135,11 @@ export default class AttackTurn {
       return;
     }
 
+    if (currentAttackingUnit.getIsDefending()) {
+      this.checkIsTheLastUnit(attackingTeam, currentAttackingUnit);
+      return;
+    }
+
     if (!this.currentTarget) {
       console.log("select target ");
       return;
@@ -140,7 +152,6 @@ export default class AttackTurn {
 
     if (attackResult) {
       this.cleanTargetsHighlights(attackingTeam.getTeam());
-      currentAttackingUnit.setIsCurrentUnit(false);
     }
     this.setCurrentTarget(null);
 
