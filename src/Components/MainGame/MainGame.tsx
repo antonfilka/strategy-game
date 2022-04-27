@@ -1,70 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AppWrapper, Arena, team } from "./MainGame.css";
 import DynamicBackground from "../DynamicBackground/DynamicBackground";
 import RoundInfo from "../RoundInfo/RoundInfo";
 import TeamUnits from "../TeamUnits/TeamUnits";
 import TurnPointer from "../TurnPointer/TurnPointer";
-import AttackTurn from "../../gameClasses/AttackTurn";
+import AttackTurnService from "../../gameClasses/services/AttackTurnService";
 import { units } from "../../gameClasses/services/RandomUnitGenerator";
 import Team from "../../gameClasses/Team";
-import TurnSwitcher from "../../gameClasses/TurnSwitcher";
+import TurnSwitcher from "../../gameClasses/services/TurnSwitcher";
 import { teams } from "../../gameClasses/Units/Unit";
+import CleanUnitsFlags from "../../gameClasses/services/CleanUnitsFlags";
 
 const MainGame: React.FC = () => {
   const [currentTurn, setCurrentTurn] = useState(teams.teamA);
   const [unitOnHover, setUnitOnHover] = useState<string>("");
   const [teamA, setTeamA] = useState(new Team({ team: teams.teamA }));
   const [teamB, setTeamB] = useState(new Team({ team: teams.teamB }));
-  const [attackTurn, setAttackTurn] = useState(
-    new AttackTurn({ teamA, teamB })
-  );
   const [currentTurnActionNumber, setCurrentTurnActionNumber] = useState(1);
-  const [currentTarget, setCurrentTarget] = useState<units>();
 
   const turnSwitcher = new TurnSwitcher({ teamA: teamA, teamB: teamB });
+  const currentTeam = currentTurn === teams.teamA ? teamA : teamB;
+  const waitingTeam = currentTurn === teams.teamA ? teamB : teamA;
 
   const handleTurnChange = (team: string) => {
     turnSwitcher.Switch();
     if (team === teams.teamA) {
       setCurrentTurn(teams.teamB);
-      teamB.cleanUnitsDefendingFlag();
-      teamA.cleanUnitsParalyzedFlag();
+      CleanUnitsFlags.cleanUnitsDefendingFlag(teamB);
+      CleanUnitsFlags.cleanUnitsParalyzedFlag(teamA);
     } else {
       setCurrentTurn(teams.teamA);
-      teamA.cleanUnitsDefendingFlag();
-      teamB.cleanUnitsParalyzedFlag();
+      CleanUnitsFlags.cleanUnitsDefendingFlag(teamA);
+      CleanUnitsFlags.cleanUnitsParalyzedFlag(teamB);
     }
   };
 
   const handleNewTurnAction = (team: Team) => {
     if (team.getTeam() === currentTurn) {
-      console.log("turn action triggered");
-      attackTurn.AttackTurn(team);
-      setCurrentTurnActionNumber((prev) => prev + 1);
-    } else {
-      alert("Wait until your turn");
+      // passing null because there's no target selected
+      AttackTurnService.AttackTurnService(currentTeam, waitingTeam, null);
+      setCurrentTurnActionNumber(currentTurnActionNumber + 1);
+      return;
     }
+    alert("Wait until your turn");
   };
 
   const handleSetCurrentTarget = (unit: units) => {
-    setCurrentTarget(unit);
-    setCurrentTurnActionNumber((prev) => prev + 1);
-
-    attackTurn.setCurrentTarget(unit);
-    attackTurn.AttackTurn(currentTurn === teams.teamA ? teamA : teamB);
+    AttackTurnService.AttackTurnService(currentTeam, waitingTeam, unit);
+    setCurrentTurnActionNumber(currentTurnActionNumber + 1);
   };
 
-  if (attackTurn.getAttackTurnIsCompleted()) {
+  if (currentTeam.getIsAttackTurnCompleted()) {
+    currentTeam.setIsAttackTurnCompleted(true);
+    waitingTeam.setIsAttackTurnCompleted(false);
     handleTurnChange(currentTurn);
-    setAttackTurn(new AttackTurn({ teamA, teamB }));
   }
 
   return (
     <div className={AppWrapper}>
       <RoundInfo
-        teamA={teamA}
-        teamB={teamB}
-        currentTurn={currentTurn}
+        currentTeam={currentTeam}
         unitOnHover={unitOnHover}
         setUnitOnHover={setUnitOnHover}
       />

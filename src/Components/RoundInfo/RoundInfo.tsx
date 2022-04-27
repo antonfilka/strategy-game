@@ -1,59 +1,35 @@
 import React, { useEffect, useState } from "react";
 import Team from "../../gameClasses/Team";
-import TurnSwitcher from "../../gameClasses/TurnSwitcher";
+import TurnSwitcher from "../../gameClasses/services/TurnSwitcher";
 import { teams } from "../../gameClasses/Units/Unit";
 import SideBarUnitCell from "../SideBarUnitCell/SideBarUnitCell";
 import { roundInfoWrapper } from "./RoundInfo.css";
 
 interface IRoundInfo {
-  teamA: Team;
-  teamB: Team;
-  currentTurn: string;
+  currentTeam: Team;
   unitOnHover: string;
   setUnitOnHover: (str: string) => void;
 }
 
 const RoundInfo: React.FC<IRoundInfo> = ({
-  teamA,
-  teamB,
-  currentTurn,
+  currentTeam,
   unitOnHover,
   setUnitOnHover,
 }) => {
-  const [unitsA, setUnitsA] = useState(teamA.getUnitsInTurn());
-  const [unitsB, setUnitsB] = useState(teamB.getUnitsInTurn());
-
-  useEffect(() => {
-    setUnitsA(teamA.getUnitsInTurn());
-    setUnitsB(teamB.getUnitsInTurn());
-  });
-
   return (
     <div className={roundInfoWrapper}>
-      {currentTurn === teams.teamA
-        ? unitsA.map((unit, index) =>
-            !unit.getIsDead() && !unit.getIsParalyzed() ? (
-              <SideBarUnitCell
-                cellUnit={unit}
-                key={index}
-                unitOnHover={unitOnHover}
-                setUnitOnHover={setUnitOnHover}
-              />
-            ) : null
-          )
-        : null}
-      {currentTurn === teams.teamB
-        ? unitsB.map((unit, index) =>
-            !unit.getIsDead() && !unit.getIsParalyzed() ? (
-              <SideBarUnitCell
-                cellUnit={unit}
-                key={index}
-                unitOnHover={unitOnHover}
-                setUnitOnHover={setUnitOnHover}
-              />
-            ) : null
-          )
-        : null}
+      {currentTeam
+        .getUnitsInTurn()
+        .map((unit, index) =>
+          !unit.getIsDead() && !unit.getIsParalyzed() ? (
+            <SideBarUnitCell
+              cellUnit={unit}
+              key={index}
+              unitOnHover={unitOnHover}
+              setUnitOnHover={setUnitOnHover}
+            />
+          ) : null
+        )}
     </div>
   );
 };

@@ -28,7 +28,7 @@ export class DynamicBackground extends React.Component {
         },
         modes: {
           push: {
-            quantity: 4,
+            quantity: 2,
           },
           repulse: {
             distance: 400,

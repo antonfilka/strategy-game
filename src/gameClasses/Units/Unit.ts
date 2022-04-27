@@ -1,103 +1,51 @@
-import { units } from "../services/RandomUnitGenerator";
-
 export default class Unit {
-  private team: string;
-  private position: Array<number>;
-  private id: string;
-  private type: string;
-  private name: string;
-  private maxHp: number;
-  private currentHp: number;
-  private damage: number;
-  private initiative: number;
-  private isParalyzed: boolean;
-  private isDead: boolean;
-  private isAttackTarget: boolean;
-  private isHealTarget: boolean;
-  private isParalyzeTarget: boolean;
-  private isDefending: boolean;
-  private isOnHover: boolean;
-  private image: string;
-  private hasCompletedTheTurn: boolean;
-  private possibleTargets: Array<units>;
-  private target: Array<units>;
-  private isCurrentUnit: boolean;
+  team: string;
+  position: Array<number>;
+  id: string = "";
+  type: string = "";
+  name: string = "";
+  maxHp: number = 10;
+  currentHp: number = this.maxHp;
+  damage: number = 10;
+  initiative: number = 10;
+  isParalyzed: boolean = false;
+  isDead: boolean = false;
+  isAttackTarget: boolean = false;
+  isHealTarget: boolean = false;
+  isParalyzeTarget: boolean = false;
+  isDefending: boolean = false;
+  isOnHover: boolean = false;
+  image: string = "";
+  hasCompletedTheTurn: boolean = false;
+  isCurrentUnit: boolean = false;
 
-  constructor(
-    team: string,
-    position: Array<number>,
-    id: string,
-    type: string,
-    name: string,
-    maxHp: number,
-    currentHp: number,
-    damage: number,
-    initiative: number,
-    isParalyzed: boolean,
-    isDead: boolean,
-    isAttackTarget: boolean,
-    isHealTarget: boolean,
-    isParalyzeTarget: boolean,
-    isDefending: boolean,
-    isOnHover: boolean,
-    image: string,
-    hasCompletedTheTurn: boolean,
-    possibleTargets: Array<units>,
-    target: Array<units>,
-    isCurrentUnit: boolean
-  ) {
+  constructor(team: string, position: Array<number>) {
     this.team = team;
     this.position = position;
-    this.id = id;
-    this.type = type;
-    this.name = name;
-    this.maxHp = maxHp;
-    this.currentHp = currentHp;
-    this.damage = damage;
-    this.initiative = initiative;
-    this.isParalyzed = isParalyzed;
-    this.isDead = isDead;
-    this.isAttackTarget = isAttackTarget;
-    this.isHealTarget = isHealTarget;
-    this.isParalyzeTarget = isParalyzeTarget;
-    this.isDefending = isDefending;
-    this.isOnHover = isOnHover;
-    this.image = image;
-    this.hasCompletedTheTurn = hasCompletedTheTurn;
-    this.possibleTargets = possibleTargets;
-    this.target = target;
-    this.isCurrentUnit = isCurrentUnit;
   }
-
-  public attack = (): number => {
-    if (this.possibleTargets.includes(this.target[0])) {
-      this.target[0].applyDamage(this.damage);
-      this.setHasCompletedTheTurn(true);
-      this.setIsCurrentUnit(false);
-      console.log("Attack completed");
-    } else {
-      alert("You cant attack this unit");
-      return 0;
-    }
-    return 1;
-  };
-
-  public defend = (): void => {
-    this.setIsDefending(true);
-    this.setHasCompletedTheTurn(true);
-    this.setIsCurrentUnit(false);
-  };
 
   public getType = (): string => {
     return this.type;
+  };
+
+  public setType = (type: string): void => {
+    this.type = type;
   };
 
   public getId = (): string => {
     return this.id;
   };
 
+  public setId = (id: string): void => {
+    this.id = id;
+  };
+
   public getName = (): string => {
     return this.name;
+  };
+
+  public setName = (name: string): void => {
+    this.name = name;
   };
 
   public getCurrentHp = (): number => {
@@ -131,12 +79,24 @@ export default class Unit {
     return this.maxHp;
   };
 
+  public setMaxHp = (maxHp: number): void => {
+    this.maxHp = maxHp;
+  };
+
   public getDamage = (): number => {
     return this.damage;
   };
 
+  public setDamage = (damage: number): void => {
+    this.damage = damage;
+  };
+
   public getInitiative = (): number => {
     return this.initiative;
+  };
+
+  public setInitiative = (initiative: number): void => {
+    this.initiative = initiative;
   };
 
   public getIsParalyzed = (): boolean => {
@@ -221,24 +181,12 @@ export default class Unit {
     this.hasCompletedTheTurn = hasCompletedTheTurn;
   };
 
-  public getPossibleTargets = (): Array<units> => {
-    return this.possibleTargets;
-  };
-
-  public setPossibleTargets = (possibleTargets: Array<units>) => {
-    this.possibleTargets = possibleTargets;
-  };
-
-  public getTarget = (): Array<units> => {
-    return this.target;
-  };
-
-  public setTarget = (target: Array<units>) => {
-    this.target = target;
-  };
-
   public getImage = (): string => {
     return this.image;
+  };
+
+  public setImage = (image: string): void => {
+    this.image = image;
   };
 
   public getIsCurrentUnit = (): boolean => {

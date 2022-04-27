@@ -31,16 +31,12 @@ const units = [
   PriestUnit,
 ];
 
-interface IRandomUnitGenerator {
-  team: string;
-}
-
 export default class RandomUnitGenerator {
-  team: string;
-  constructor(props: IRandomUnitGenerator) {
-    this.team = props.team;
-  }
-  public getUnit = (position: Array<number>): units => {
-    return new units[Math.floor(Math.random() * 9)](this.team, position);
+  public static getRandomUnit = (
+    team: string,
+    position: Array<number>
+  ): units => {
+    // 9 is used to get random value in range 0-8
+    return new units[Math.floor(Math.random() * 9)](team, position);
   };
 }

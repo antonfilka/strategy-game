@@ -46,19 +46,19 @@ const SideBarUnitCell: React.FC<IUnitCell> = ({
     >
       {unit.getIsDead() ? (
         <img
-          src="https://icons-for-free.com/download-icon-dead+death+grave+graveyard+halloween+scary+icon-1320183477745266883_512.png"
+          src="https://4.downloader.disk.yandex.by/preview/50170c91cb89c183870bf05782cc9ab10fc0ac58686bb2fb0ef33d505b89305b/inf/jsWnR_rgNGYPJeUks15bnpOL8txZQRUtCCwWtj1tHEjR-yFgnj8Qn500_FOefw10b120N373XSYIoByXr_cNUA%3D%3D?uid=1130000014892791&filename=rip.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1528"
           className={deadImageSideBar}
         />
       ) : null}
       {unit.getIsParalyzed() ? (
         <img
-          src="https://www.seekpng.com/png/full/858-8586257_water.png"
+          src="https://2.downloader.disk.yandex.by/preview/5883608a37fa7a99b340ce376b9483b66d4060b58bab84250519253d6f8d6de3/inf/6ktCjQWKLdZypQsXHlsdDZOL8txZQRUtCCwWtj1tHEjRDDS6A6bqpMr413no8DryFYOrg7e6qR9VkRJOkViCDQ%3D%3D?uid=1130000014892791&filename=paralyzed.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1528"
           className={paralyzeImageSideBar}
         />
       ) : null}
       {unit.getIsDefending() ? (
         <img
-          src="https://cdn-icons-png.flaticon.com/512/595/595764.png"
+          src="https://1.downloader.disk.yandex.by/preview/27d9027fc1e5bfa326f4ec897d350beb76e7b7e83fad345e4d1faddc8c7f355f/inf/KAEda6woVVVeLHoolibA7bA9ng_3fGROSYZ2iOLUpwCeyfMIk62C7vSsIRdYQ61wvnyUxViOKWffYjToyeALJg%3D%3D?uid=1130000014892791&filename=shield.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1528"
           className={defendImageSideBar}
         />
       ) : null}
