@@ -30,7 +30,7 @@ const TurnPointer: React.FC<ITurnPointer> = ({ currentTurn }) => {
         <div className={pointerText}>Your turn</div>
         <img
           className={pointerImage}
-          src="https://4.downloader.disk.yandex.by/preview/d0574ca916ad8e9832bd18da04d34f64c1cc3ae53a14ce530681aca10f915621/inf/kmHU6bgQG3fLnt3t-ZfAOuPYCJerrSP2D64qSzsboVrD-_AqSFMudn-9czeT6lVBHxwV2B7hhN2hGQQRs1Wc5w%3D%3D?uid=1130000014892791&filename=Pointer.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1642"
+          src="https://i.ibb.co/fYLXzJ4/Pointer.png"
         />
       </div>
 

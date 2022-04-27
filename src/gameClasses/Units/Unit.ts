@@ -54,25 +54,6 @@ export default class Unit {
 
   public setCurrentHp = (currentHp: number) => {
     this.currentHp = currentHp;
-    this.currentHp <= 0 ? this.setIsDead(true) : null;
-  };
-
-  public applyDamage = (damage: number) => {
-    if (this.getIsDefending()) {
-      this.currentHp -= damage / 2;
-    } else {
-      this.currentHp -= damage;
-    }
-    this.currentHp <= 0 ? this.setIsDead(true) : null;
-  };
-
-  public applyHeal = (heal: number) => {
-    if (!this.isDead) {
-      this.currentHp += heal;
-      if (this.currentHp > this.maxHp) {
-        this.currentHp = this.maxHp;
-      }
-    }
   };
 
   public getMaxHp = (): number => {
@@ -109,8 +90,6 @@ export default class Unit {
 
   public setIsDead = (isDead: boolean) => {
     this.isDead = isDead;
-    this.currentHp = 0;
-    this.isDead ? this.setIsParalyzed(false) : null;
   };
 
   public setIsParalyzed = (isParalyzed: boolean) => {
@@ -213,13 +192,13 @@ export enum unitsTypes {
 }
 
 export enum unitsImages {
-  archer = "https://1.downloader.disk.yandex.by/preview/5c76e5777feae1852e35d94ee03c47e9db9e14545792d92e67aac4fcf353d441/inf/bZbEg5IqVnb6VLtb3zZJtdpaxEg0g6ufCdCQJw4owZ8BNAhBZTkG66z0URtl50OB2GhTM21SGPpnJzjZshPwSg%3D%3D?uid=1130000014892791&filename=Archer.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1642",
-  bomber = "https://4.downloader.disk.yandex.by/preview/b313e87bfa5d55809b98dcebe1a7bb0ed522b6fc1e45832074df444c0afc75aa/inf/8VYWCTpLNoPPo7mDtta83dpaxEg0g6ufCdCQJw4owZ-QOsZ8M7FhBK5XUWyk5mQdHeenn-8p1vKxhCDjGiKZnw%3D%3D?uid=1130000014892791&filename=Bomber.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1642",
-  gunner = "https://4.downloader.disk.yandex.by/preview/da4372052bee7309251a2d80955bc047f0e192da2eaa9d75aa593101d537bda8/inf/GaeSbR_VydpZJm_XYQBILdpaxEg0g6ufCdCQJw4owZ_7wEIIBWVEsqc2bvk8ukIjIL8kyGs7R7mU31uX97ycOg%3D%3D?uid=1130000014892791&filename=Gunner.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1642",
-  musketeer = "https://4.downloader.disk.yandex.by/preview/e7276881866cb09dc368340a7ab3d6750a5e33e30f14410297f39da1d632a68b/inf/gsWky2X6meGUebPNgPZQ9Jbmxgh7z9Sh2921M5W_Ksn0PvOovAv2teLpEXxexscjrvTAjjGFUGfa8x89XQXl1g%3D%3D?uid=1130000014892791&filename=Musketeer.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1642",
-  pirate = "https://4.downloader.disk.yandex.by/preview/ab4f90e33257edcef23654187f299c839b0e345abad56929b7f6549208e90ec2/inf/Q0vtLXxLT_Tm7psCCh_WYpbmxgh7z9Sh2921M5W_Ksn-kY1fFlZffC1YYrIjS-ox9lgtm_QilgqVam1_TRD9Fg%3D%3D?uid=1130000014892791&filename=Pirate.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1642",
-  sworder = "https://4.downloader.disk.yandex.by/preview/c3a32ee1c1324c97f18e34d582d07582891aef5bbc78e830a063a4f2eb203954/inf/B4qjUI-low-slv5jvhs62pbmxgh7z9Sh2921M5W_KsmkNEhEw2OCdgQJdB8KIAAo9Twmm-zSY4pxiZ6Iu69G-Q%3D%3D?uid=1130000014892791&filename=Sworder.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1642",
-  doggy = "https://2.downloader.disk.yandex.by/preview/b8a9223a5c2a1dff072a81d8e62993cdd367d1d6945ec4c80f8a6ae2dfb919dd/inf/s3TMVkL0HWQGARabrbJ0Y9paxEg0g6ufCdCQJw4owZ8wphG7CHl2i3NxfXRElMLmxwVDI0BrwtSzaVZDJHjclw%3D%3D?uid=1130000014892791&filename=Doggy.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1642",
-  mage = "https://2.downloader.disk.yandex.by/preview/b3426386ef6aadbfbb2a2f6204c96283a479243400a0a3392d44c852990fffb6/inf/UkvRzvceM4VvSEtek4rudbpR6UbzFj7oAJKvL4klRYid8iTKvRRbTNbYC4B_z15u74VlK8fWbsBhe6yjVgQZaw%3D%3D?uid=1130000014892791&filename=Mage.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1642",
-  priest = "https://4.downloader.disk.yandex.by/preview/ca42b60df85cbc620f029e8805f5055de71b02eed02360516b5329c078e5aafd/inf/E9sNI5Ei1E3rXvolHQ3wjZbmxgh7z9Sh2921M5W_KskI42JTt--GV28H51sb2cknf9NQIkZtruBStmQGVxzOYg%3D%3D?uid=1130000014892791&filename=Priest.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1642",
+  archer = "https://i.ibb.co/PrXtrt5/Archer.png",
+  bomber = "https://i.ibb.co/HVFckcJ/Bomber.png",
+  gunner = "https://i.ibb.co/JRhnnpM/Gunner.png",
+  musketeer = "https://i.ibb.co/wz79P8h/Musketeer.png",
+  pirate = "https://i.ibb.co/HD4qCMB/Pirate.png",
+  sworder = "https://i.ibb.co/pw4Bm17/Sworder.png",
+  doggy = "https://i.ibb.co/K2cRSFw/Doggy.png",
+  mage = "https://i.ibb.co/C2476ZM/Mage.png",
+  priest = "https://i.ibb.co/0hbJ2ZF/Priest.png",
 }

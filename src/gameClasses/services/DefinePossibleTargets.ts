@@ -1,7 +1,7 @@
 import Team from "../Team";
 import { teams, unitsTypes } from "../Units/Unit";
+import AttackTurnService from "./AttackTurnService";
 import { units } from "./RandomUnitGenerator";
-import TurnService from "./TurnService";
 
 export default class DefinePossibleTargets {
   public static definePossibleMeleeTargets = (
@@ -10,8 +10,8 @@ export default class DefinePossibleTargets {
   ): Array<units> => {
     const possibleTargets: Array<units> = [];
 
-    enemyTeam.getUnits().forEach((rowOfEnemyUnits) =>
-      rowOfEnemyUnits.forEach((enemyUnit) => {
+    enemyTeam.getUnits().forEach(rowOfEnemyUnits =>
+      rowOfEnemyUnits.forEach(enemyUnit => {
         let rowDiff = Math.abs(
           enemyUnit.getPosition()[0] - unit.getPosition()[0]
         );
@@ -71,14 +71,14 @@ export default class DefinePossibleTargets {
           enemyUnit.getTeam() === teams.teamB
             ? enemyTeam
                 .getUnits()[0]
-                .forEach((enemyUnit) =>
+                .forEach(enemyUnit =>
                   enemyUnit.getIsDead()
                     ? (secondRowIsReachable = secondRowIsReachable && true)
                     : (secondRowIsReachable = secondRowIsReachable && false)
                 )
             : enemyTeam
                 .getUnits()[1]
-                .forEach((enemyUnit) =>
+                .forEach(enemyUnit =>
                   enemyUnit.getIsDead()
                     ? (secondRowIsReachable = secondRowIsReachable && true)
                     : (secondRowIsReachable = secondRowIsReachable && false)
@@ -103,8 +103,8 @@ export default class DefinePossibleTargets {
     const possibleTargets: Array<units> = [];
 
     // setting all enemy units as possible targets
-    enemyTeam.getUnits().forEach((unitRow) =>
-      unitRow.forEach((enemyUnit) => {
+    enemyTeam.getUnits().forEach(unitRow =>
+      unitRow.forEach(enemyUnit => {
         if (!enemyUnit.getIsDead()) {
           unit.getType() === unitsTypes.paralyzer
             ? enemyUnit.setIsParalyzeTarget(true)
@@ -124,8 +124,8 @@ export default class DefinePossibleTargets {
     const possibleTargets: Array<units> = [];
 
     // setting all friendly units as possible target
-    myTeam.getUnits().forEach((unitRow) =>
-      unitRow.forEach((myUnit) => {
+    myTeam.getUnits().forEach(unitRow =>
+      unitRow.forEach(myUnit => {
         if (!myUnit.getIsDead() && myUnit !== unit) {
           myUnit.setIsHealTarget(true);
           possibleTargets.push(myUnit);
@@ -140,6 +140,6 @@ export default class DefinePossibleTargets {
     unit.setHasCompletedTheTurn(true);
     unit.setIsCurrentUnit(false);
     alert("This unit stands too far to attack anybody");
-    TurnService.isTheEndOfTurn(attackingTeam, unit);
+    AttackTurnService.isTheEndOfTurn(attackingTeam, unit);
   };
 }

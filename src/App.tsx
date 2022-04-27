@@ -7,8 +7,8 @@ const App: React.FC = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<WelcomeTab />} />
-        <Route path="/game" element={<MainGame />} />
+        <Route path="/strategy-game/" element={<WelcomeTab />} />
+        <Route path="/strategy-game/game" element={<MainGame />} />
       </Routes>
     </div>
   );

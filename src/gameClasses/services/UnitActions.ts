@@ -60,7 +60,7 @@ export default class UnitActions {
       DefinePossibleTargets.noTargetsAction(unit, attackingTeam);
 
     if (possibleTargets.includes(target)) {
-      target.applyDamage(unit.getDamage());
+      UnitActions.applyDamage(target, unit.getDamage());
       unit.setHasCompletedTheTurn(true);
       unit.setIsCurrentUnit(false);
       return true;
@@ -84,8 +84,8 @@ export default class UnitActions {
       DefinePossibleTargets.noTargetsAction(unit, attackingTeam);
 
     if (possibleTargets.includes(target)) {
-      possibleTargets.forEach((enemyUnit) =>
-        enemyUnit.applyDamage(unit.getDamage())
+      possibleTargets.forEach(enemyUnit =>
+        UnitActions.applyDamage(enemyUnit, unit.getDamage())
       );
       unit.setHasCompletedTheTurn(true);
       unit.setIsCurrentUnit(false);
@@ -109,7 +109,7 @@ export default class UnitActions {
       DefinePossibleTargets.noTargetsAction(unit, attackingTeam);
 
     if (possibleTargets.includes(target) && unit instanceof DoggyUnit) {
-      target.applyHeal(unit.getHeal());
+      UnitActions.applyHeal(target, unit.getHeal());
       unit.setHasCompletedTheTurn(true);
       unit.setIsCurrentUnit(false);
       return true;
@@ -132,8 +132,8 @@ export default class UnitActions {
       DefinePossibleTargets.noTargetsAction(unit, attackingTeam);
 
     if (possibleTargets.includes(target) && unit instanceof PriestUnit) {
-      possibleTargets.forEach((unitToHeal) =>
-        unitToHeal.applyHeal(unit.getHeal())
+      possibleTargets.forEach(unitToHeal =>
+        UnitActions.applyHeal(unitToHeal, unit.getHeal())
       );
       unit.setHasCompletedTheTurn(true);
       unit.setIsCurrentUnit(false);
@@ -165,5 +165,26 @@ export default class UnitActions {
     }
     alert("You cant attack this unit");
     return false;
+  };
+
+  public static applyHeal = (unit: units, heal: number): void => {
+    if (!unit.isDead) {
+      unit.setCurrentHp(unit.getCurrentHp() + heal);
+      if (unit.getCurrentHp() > unit.getMaxHp()) {
+        unit.setCurrentHp(unit.getMaxHp());
+      }
+    }
+  };
+
+  public static applyDamage = (unit: units, damage: number): void => {
+    unit.getIsDefending()
+      ? unit.setCurrentHp(unit.getCurrentHp() - damage / 2)
+      : unit.setCurrentHp(unit.getCurrentHp() - damage);
+
+    if (unit.getCurrentHp() <= 0) {
+      unit.setIsDead(true);
+      unit.setCurrentHp(0);
+      unit.setIsParalyzed(false);
+    }
   };
 }

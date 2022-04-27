@@ -1,7 +1,6 @@
 import DefinePossibleTargets from "./DefinePossibleTargets";
 import { units } from "./RandomUnitGenerator";
 import SortAndCreateUnitsForTurn from "./SortAndCreateUnitsForTurn";
-import TurnService from "./TurnService";
 import UnitActions from "./UnitActions";
 import Team from "../Team";
 
@@ -13,24 +12,21 @@ export default class AttackTurnService {
   ) => {
     let currentAttackingUnit = AttackTurnService.AttackTurnPrepare(
       attackingTeam,
-      enemyTeam,
-      currentTarget
+      enemyTeam
     );
 
     if (!currentAttackingUnit) {
       attackingTeam.setIsAttackTurnCompleted(true);
       //clearing flags
-      attackingTeam.getUnits().forEach((untiRow) =>
-        untiRow.forEach((unit) => {
+      attackingTeam.getUnits().forEach(untiRow =>
+        untiRow.forEach(unit => {
           unit.setHasCompletedTheTurn(false);
         })
       );
       return;
     }
-    console.log(currentAttackingUnit);
-
     if (currentAttackingUnit.getIsDefending()) {
-      TurnService.isTheEndOfTurn(attackingTeam, currentAttackingUnit);
+      AttackTurnService.isTheEndOfTurn(attackingTeam, currentAttackingUnit);
       return;
     }
     if (!currentTarget) {
@@ -46,13 +42,12 @@ export default class AttackTurnService {
 
     if (attackResult)
       AttackTurnService.cleanTargetsHighlights(attackingTeam, enemyTeam);
-    TurnService.isTheEndOfTurn(attackingTeam, currentAttackingUnit);
+    AttackTurnService.isTheEndOfTurn(attackingTeam, currentAttackingUnit);
   };
 
   public static AttackTurnPrepare = (
     attackingTeam: Team,
-    enemyTeam: Team,
-    currentTarget: units | null
+    enemyTeam: Team
   ): units | void => {
     //  prepare units who are not dead and not paralyzed
     SortAndCreateUnitsForTurn.sortAndCreateUnitsForTurn(attackingTeam);
@@ -100,7 +95,7 @@ export default class AttackTurnService {
     return (
       attackingTeam
         .getUnitsInTurn()
-        .find((unit) => !unit.getHasCompletedTheTurn()) || null
+        .find(unit => !unit.getHasCompletedTheTurn()) || null
     );
   }
 
@@ -108,19 +103,40 @@ export default class AttackTurnService {
     attackingTeam: Team,
     enemyTeam: Team
   ) => {
-    attackingTeam.getUnits().forEach((untiRow) =>
-      untiRow.forEach((unit) => {
+    attackingTeam.getUnits().forEach(unitRow =>
+      unitRow.forEach(unit => {
         unit.setIsAttackTarget(false);
         unit.setIsHealTarget(false);
         unit.setIsParalyzeTarget(false);
       })
     );
-    enemyTeam.getUnits().forEach((untiRow) =>
-      untiRow.forEach((unit) => {
+    enemyTeam.getUnits().forEach(unitRow =>
+      unitRow.forEach(unit => {
         unit.setIsAttackTarget(false);
         unit.setIsHealTarget(false);
         unit.setIsParalyzeTarget(false);
       })
     );
+  };
+
+  public static isTheEndOfTurn = (
+    attackingTeam: Team,
+    currentAttackingUnit: units
+  ): boolean => {
+    if (
+      attackingTeam
+        .getUnitsInTurn()
+        .findIndex(unit => unit === currentAttackingUnit) ===
+      attackingTeam.getUnitsInTurn().length - 1
+    ) {
+      attackingTeam.setIsAttackTurnCompleted(true);
+      attackingTeam.getUnits().forEach(untiRow =>
+        untiRow.forEach(unit => {
+          unit.setHasCompletedTheTurn(false);
+        })
+      );
+      return true;
+    }
+    return false;
   };
 }

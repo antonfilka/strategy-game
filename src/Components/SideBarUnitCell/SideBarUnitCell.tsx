@@ -46,19 +46,19 @@ const SideBarUnitCell: React.FC<IUnitCell> = ({
     >
       {unit.getIsDead() ? (
         <img
-          src="https://4.downloader.disk.yandex.by/preview/50170c91cb89c183870bf05782cc9ab10fc0ac58686bb2fb0ef33d505b89305b/inf/jsWnR_rgNGYPJeUks15bnpOL8txZQRUtCCwWtj1tHEjR-yFgnj8Qn500_FOefw10b120N373XSYIoByXr_cNUA%3D%3D?uid=1130000014892791&filename=rip.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1528"
+          src="https://i.ibb.co/SmDZTZn/rip.png"
           className={deadImageSideBar}
         />
       ) : null}
       {unit.getIsParalyzed() ? (
         <img
-          src="https://2.downloader.disk.yandex.by/preview/5883608a37fa7a99b340ce376b9483b66d4060b58bab84250519253d6f8d6de3/inf/6ktCjQWKLdZypQsXHlsdDZOL8txZQRUtCCwWtj1tHEjRDDS6A6bqpMr413no8DryFYOrg7e6qR9VkRJOkViCDQ%3D%3D?uid=1130000014892791&filename=paralyzed.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1528"
+          src="https://i.ibb.co/jhH1pn4/paralyzed.png"
           className={paralyzeImageSideBar}
         />
       ) : null}
       {unit.getIsDefending() ? (
         <img
-          src="https://1.downloader.disk.yandex.by/preview/27d9027fc1e5bfa326f4ec897d350beb76e7b7e83fad345e4d1faddc8c7f355f/inf/KAEda6woVVVeLHoolibA7bA9ng_3fGROSYZ2iOLUpwCeyfMIk62C7vSsIRdYQ61wvnyUxViOKWffYjToyeALJg%3D%3D?uid=1130000014892791&filename=shield.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=1130000014892791&tknv=v2&size=2880x1528"
+          src="https://i.ibb.co/kDTn0CX/shield.png"
           className={defendImageSideBar}
         />
       ) : null}
@@ -71,7 +71,7 @@ const SideBarUnitCell: React.FC<IUnitCell> = ({
       />
 
       <img
-        src="https://htmlcolorcodes.com/assets/images/colors/red-color-solid-background-1920x1080.png"
+        src="https://i.ibb.co/3fjfT7b/red-color-solid-background-1920x1080.png"
         style={assignInlineVars({
           height: `${100 - (unit.getCurrentHp() * 100) / unit.getMaxHp()}%`,
         })}

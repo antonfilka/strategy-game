@@ -14,16 +14,15 @@ import CleanUnitsFlags from "../../gameClasses/services/CleanUnitsFlags";
 const MainGame: React.FC = () => {
   const [currentTurn, setCurrentTurn] = useState(teams.teamA);
   const [unitOnHover, setUnitOnHover] = useState<string>("");
-  const [teamA, setTeamA] = useState(new Team({ team: teams.teamA }));
-  const [teamB, setTeamB] = useState(new Team({ team: teams.teamB }));
+  const [teamA] = useState(new Team({ team: teams.teamA }));
+  const [teamB] = useState(new Team({ team: teams.teamB }));
   const [currentTurnActionNumber, setCurrentTurnActionNumber] = useState(1);
 
-  const turnSwitcher = new TurnSwitcher({ teamA: teamA, teamB: teamB });
   const currentTeam = currentTurn === teams.teamA ? teamA : teamB;
   const waitingTeam = currentTurn === teams.teamA ? teamB : teamA;
 
   const handleTurnChange = (team: string) => {
-    turnSwitcher.Switch();
+    TurnSwitcher.Switch(teamA, teamB);
     if (team === teams.teamA) {
       setCurrentTurn(teams.teamB);
       CleanUnitsFlags.cleanUnitsDefendingFlag(teamB);
