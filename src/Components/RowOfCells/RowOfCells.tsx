@@ -7,12 +7,14 @@ type IRowOfCells = {
   unitOnHover: string;
   rowOfUnits: Array<units>;
   handleSetCurrentTarget: (unit: units) => void;
+  unitsAvailable: boolean;
 };
 
 const RowOfCells: React.FC<IRowOfCells> = ({
   unitOnHover,
   rowOfUnits,
   handleSetCurrentTarget,
+  unitsAvailable,
 }) => {
   return (
     <div className={rowWrapper}>
@@ -22,6 +24,7 @@ const RowOfCells: React.FC<IRowOfCells> = ({
           key={index}
           unitOnHover={unitOnHover}
           handleSetCurrentTarget={handleSetCurrentTarget}
+          unitsAvailable={unitsAvailable}
         />
       ))}
     </div>

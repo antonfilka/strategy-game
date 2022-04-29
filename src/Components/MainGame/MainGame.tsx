@@ -10,16 +10,19 @@ import Team from "../../gameClasses/Team";
 import TurnSwitcher from "../../gameClasses/services/TurnSwitcher";
 import { teams } from "../../gameClasses/Units/Unit";
 import CleanUnitsFlags from "../../gameClasses/services/CleanUnitsFlags";
+import SortAndCreateUnitsForTurn from "../../gameClasses/services/SortAndCreateUnitsForTurn";
 
 const MainGame: React.FC = () => {
   const [currentTurn, setCurrentTurn] = useState(teams.teamA);
   const [unitOnHover, setUnitOnHover] = useState<string>("");
   const [teamA] = useState(new Team({ team: teams.teamA }));
   const [teamB] = useState(new Team({ team: teams.teamB }));
-  const [currentTurnActionNumber, setCurrentTurnActionNumber] = useState(1);
+  const [currentTurnActionNumber, setCurrentTurnActionNumber] = useState(0);
 
   const currentTeam = currentTurn === teams.teamA ? teamA : teamB;
   const waitingTeam = currentTurn === teams.teamA ? teamB : teamA;
+  const unitsAvailable =
+    currentTeam.getIsAttacking() || waitingTeam.getIsAttacking();
 
   const handleTurnChange = (team: string) => {
     TurnSwitcher.Switch(teamA, teamB);
@@ -49,11 +52,26 @@ const MainGame: React.FC = () => {
     setCurrentTurnActionNumber(currentTurnActionNumber + 1);
   };
 
+  const handleCancelButton = () => {
+    currentTeam.setIsAttacking(false);
+    AttackTurnService.cleanTargetsHighlights(currentTeam, waitingTeam);
+    setCurrentTurnActionNumber(currentTurnActionNumber + 1);
+  };
+
   if (currentTeam.getIsAttackTurnCompleted()) {
     currentTeam.setIsAttackTurnCompleted(true);
     waitingTeam.setIsAttackTurnCompleted(false);
     handleTurnChange(currentTurn);
   }
+
+  // highlighting first attacking unit
+  const firstUnit =
+    SortAndCreateUnitsForTurn.sortAndCreateUnitsForTurn(currentTeam)[0];
+  if (
+    !firstUnit.getHasCompletedTheTurn() &&
+    !currentTeam.getIsAttackTurnCompleted()
+  )
+    firstUnit.setIsCurrentUnit(true);
 
   return (
     <div className={AppWrapper}>
@@ -67,18 +85,22 @@ const MainGame: React.FC = () => {
           <TeamUnits
             team={teamA}
             handleTurnChange={handleTurnChange}
+            handleCancelButton={handleCancelButton}
             unitOnHover={unitOnHover}
             handleNewTurnAction={handleNewTurnAction}
             handleSetCurrentTarget={handleSetCurrentTarget}
+            unitsAvailable={unitsAvailable}
           />
         </div>
         <div className={team}>
           <TeamUnits
             team={teamB}
             handleTurnChange={handleTurnChange}
+            handleCancelButton={handleCancelButton}
             unitOnHover={unitOnHover}
             handleNewTurnAction={handleNewTurnAction}
             handleSetCurrentTarget={handleSetCurrentTarget}
+            unitsAvailable={unitsAvailable}
           />
         </div>
       </div>

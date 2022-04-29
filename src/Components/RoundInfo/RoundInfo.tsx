@@ -4,6 +4,7 @@ import TurnSwitcher from "../../gameClasses/services/TurnSwitcher";
 import { teams } from "../../gameClasses/Units/Unit";
 import SideBarUnitCell from "../SideBarUnitCell/SideBarUnitCell";
 import { roundInfoWrapper } from "./RoundInfo.css";
+import SortAndCreateUnitsForTurn from "../../gameClasses/services/SortAndCreateUnitsForTurn";
 
 interface IRoundInfo {
   currentTeam: Team;
@@ -18,18 +19,17 @@ const RoundInfo: React.FC<IRoundInfo> = ({
 }) => {
   return (
     <div className={roundInfoWrapper}>
-      {currentTeam
-        .getUnitsInTurn()
-        .map((unit, index) =>
+      {SortAndCreateUnitsForTurn.sortAndCreateUnitsForTurn(currentTeam).map(
+        (unit, index) =>
           !unit.getIsDead() && !unit.getIsParalyzed() ? (
             <SideBarUnitCell
-              cellUnit={unit}
+              unit={unit}
               key={index}
               unitOnHover={unitOnHover}
               setUnitOnHover={setUnitOnHover}
             />
           ) : null
-        )}
+      )}
     </div>
   );
 };

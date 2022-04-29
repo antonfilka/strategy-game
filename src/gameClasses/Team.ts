@@ -9,14 +9,15 @@ export default class Team {
   private team: string;
   private isMyTurn: boolean;
   private isDefending: boolean;
+  private isAttacking: boolean;
   private isAttackTurnCompleted: boolean;
   private units: Array<Array<units>>;
-  private unitsInTurn: Array<units> = [];
 
   constructor(props: ITeam) {
     this.team = props.team;
     this.isMyTurn = props.team === teams.teamB ? false : true;
     this.isDefending = false;
+    this.isAttacking = false;
     this.units =
       this.team === teams.teamA
         ? [
@@ -66,16 +67,15 @@ export default class Team {
     this.isDefending = isDefending;
   };
 
+  public getIsAttacking = (): boolean => {
+    return this.isAttacking;
+  };
+
+  public setIsAttacking = (isAttacking: boolean) => {
+    this.isAttacking = isAttacking;
+  };
   public getUnits = (): Array<Array<units>> => {
     return this.units;
-  };
-
-  public getUnitsInTurn = (): Array<units> => {
-    return this.unitsInTurn;
-  };
-
-  public setUnitsInTurn = (unitsInTurn: Array<units>): void => {
-    this.unitsInTurn = unitsInTurn;
   };
 
   public getIsAttackTurnCompleted = (): boolean => {

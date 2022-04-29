@@ -6,6 +6,7 @@ import RowOfCells from "../RowOfCells/RowOfCells";
 import {
   attackButton,
   buttons,
+  cancelButton,
   defendButton,
   teamUnits,
   teamWrapper,
@@ -17,21 +18,40 @@ interface ITeamUnits {
   team: Team;
   handleNewTurnAction: (team: Team) => void;
   handleSetCurrentTarget: (unit: units) => void;
+  handleCancelButton: () => void;
+  unitsAvailable: boolean;
 }
 
 const TeamUnits: React.FC<ITeamUnits> = ({
   team,
   unitOnHover,
   handleNewTurnAction,
+  handleCancelButton,
   handleSetCurrentTarget,
+  unitsAvailable,
 }) => {
   const handleDefendButton = () => {
-    team.setIsDefending(true);
-    handleNewTurnAction(team);
+    if (!team.getIsAttacking()) {
+      team.setIsDefending(true);
+      handleNewTurnAction(team);
+      return;
+    }
+    alert("You can't defend and attack at the same time");
   };
 
   const handleAttackButton = () => {
-    handleNewTurnAction(team);
+    if (!team.getIsDefending()) {
+      team.setIsAttacking(true);
+      handleNewTurnAction(team);
+      return;
+    }
+    alert("You can't defend and attack at the same time");
+  };
+
+  const handleCancel = () => {
+    if (team.getIsAttacking()) {
+      handleCancelButton();
+    }
   };
 
   return (
@@ -44,6 +64,7 @@ const TeamUnits: React.FC<ITeamUnits> = ({
               key={index}
               unitOnHover={unitOnHover}
               handleSetCurrentTarget={handleSetCurrentTarget}
+              unitsAvailable={unitsAvailable}
             />
           );
         })}
@@ -65,6 +86,14 @@ const TeamUnits: React.FC<ITeamUnits> = ({
               width: "20px",
               marginLeft: "15px",
             }}
+          />
+        </button>
+
+        <button className={cancelButton} onClick={() => handleCancel()}>
+          Cancel
+          <img
+            src="https://i.ibb.co/2yK6Ygs/cancel.png"
+            style={{ width: "14px", marginLeft: "15px" }}
           />
         </button>
       </div>

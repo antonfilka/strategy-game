@@ -61,8 +61,6 @@ export default class UnitActions {
 
     if (possibleTargets.includes(target)) {
       UnitActions.applyDamage(target, unit.getDamage());
-      unit.setHasCompletedTheTurn(true);
-      unit.setIsCurrentUnit(false);
       return true;
     }
     alert("You cant attack this unit");
@@ -87,8 +85,6 @@ export default class UnitActions {
       possibleTargets.forEach(enemyUnit =>
         UnitActions.applyDamage(enemyUnit, unit.getDamage())
       );
-      unit.setHasCompletedTheTurn(true);
-      unit.setIsCurrentUnit(false);
       return true;
     }
     alert("You cant attack this unit");
@@ -110,8 +106,6 @@ export default class UnitActions {
 
     if (possibleTargets.includes(target) && unit instanceof DoggyUnit) {
       UnitActions.applyHeal(target, unit.getHeal());
-      unit.setHasCompletedTheTurn(true);
-      unit.setIsCurrentUnit(false);
       return true;
     }
     alert("You cant Heal this unit");
@@ -135,8 +129,6 @@ export default class UnitActions {
       possibleTargets.forEach(unitToHeal =>
         UnitActions.applyHeal(unitToHeal, unit.getHeal())
       );
-      unit.setHasCompletedTheTurn(true);
-      unit.setIsCurrentUnit(false);
       return true;
     }
     alert("You cant Heal this unit");
@@ -159,8 +151,6 @@ export default class UnitActions {
 
     if (possibleTargets.includes(target)) {
       target.setIsParalyzed(true);
-      unit.setHasCompletedTheTurn(true);
-      unit.setIsCurrentUnit(false);
       return true;
     }
     alert("You cant attack this unit");

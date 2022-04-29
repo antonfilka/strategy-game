@@ -18,12 +18,14 @@ type IUnitCell = {
   unitOnHover: string;
   cellUnit: units;
   handleSetCurrentTarget: (unit: units) => void;
+  unitsAvailable: boolean;
 };
 
 const UnitCell: React.FC<IUnitCell> = ({
   cellUnit,
   unitOnHover,
   handleSetCurrentTarget,
+  unitsAvailable,
 }) => {
   const unit = cellUnit;
   const [isOnHover, setIsOnHover] = useState(false);
@@ -42,7 +44,11 @@ const UnitCell: React.FC<IUnitCell> = ({
   });
 
   const handleUnitClick = () => {
-    handleSetCurrentTarget(unit);
+    if (unitsAvailable) {
+      handleSetCurrentTarget(unit);
+      return;
+    }
+    alert(`Start attack by pressing "Attack button" or defend your unit`);
   };
 
   return (

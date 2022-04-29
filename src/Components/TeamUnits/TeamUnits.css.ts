@@ -61,6 +61,29 @@ export const attackButton = style({
   },
 });
 
+export const cancelButton = style({
+  display: "flex",
+  alignItems: "center",
+  width: "120px",
+  marginLeft: "20px",
+  border: "none",
+  borderRadius: 5,
+  color: "rgb(0, 0, 0, 0.8)",
+  fontSize: "15px",
+  fontWeight: "bold",
+  boxShadow: "2px 5px 5px rgb(0, 0, 0, 0.3)",
+  backgroundColor: "#b7b7a4",
+  padding: 15,
+  cursor: "pointer",
+
+  ":hover": {
+    transform: "scale(1.01)",
+  },
+  ":active": {
+    transform: "scale(0.95)",
+  },
+});
+
 export const buttons = style({
   display: "flex",
   flexDirection: "column",

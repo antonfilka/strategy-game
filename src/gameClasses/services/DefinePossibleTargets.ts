@@ -2,6 +2,7 @@ import Team from "../Team";
 import { teams, unitsTypes } from "../Units/Unit";
 import AttackTurnService from "./AttackTurnService";
 import { units } from "./RandomUnitGenerator";
+import SortAndCreateUnitsForTurn from "./SortAndCreateUnitsForTurn";
 
 export default class DefinePossibleTargets {
   public static definePossibleMeleeTargets = (
@@ -140,6 +141,10 @@ export default class DefinePossibleTargets {
     unit.setHasCompletedTheTurn(true);
     unit.setIsCurrentUnit(false);
     alert("This unit stands too far to attack anybody");
+    attackingTeam.setIsAttacking(false);
+    AttackTurnService.getNextAttackingUnit(
+      SortAndCreateUnitsForTurn.sortAndCreateUnitsForTurn(attackingTeam)
+    )?.setIsCurrentUnit(true);
     AttackTurnService.isTheEndOfTurn(attackingTeam, unit);
   };
 }

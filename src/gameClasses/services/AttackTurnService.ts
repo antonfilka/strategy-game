@@ -10,9 +10,13 @@ export default class AttackTurnService {
     enemyTeam: Team,
     currentTarget: units | null
   ) => {
+    const unitsInTurn =
+      SortAndCreateUnitsForTurn.sortAndCreateUnitsForTurn(attackingTeam);
+
     let currentAttackingUnit = AttackTurnService.AttackTurnPrepare(
       attackingTeam,
-      enemyTeam
+      enemyTeam,
+      unitsInTurn
     );
 
     if (!currentAttackingUnit) {
@@ -25,7 +29,14 @@ export default class AttackTurnService {
       );
       return;
     }
+
+    currentAttackingUnit.setIsCurrentUnit(true);
+
     if (currentAttackingUnit.getIsDefending()) {
+      currentAttackingUnit.setIsCurrentUnit(false);
+      AttackTurnService.getNextAttackingUnit(unitsInTurn)?.setIsCurrentUnit(
+        true
+      );
       AttackTurnService.isTheEndOfTurn(attackingTeam, currentAttackingUnit);
       return;
     }
@@ -40,27 +51,32 @@ export default class AttackTurnService {
       currentTarget
     );
 
-    if (attackResult)
+    if (attackResult) {
+      attackingTeam.setIsAttacking(false);
       AttackTurnService.cleanTargetsHighlights(attackingTeam, enemyTeam);
-    AttackTurnService.isTheEndOfTurn(attackingTeam, currentAttackingUnit);
+      currentAttackingUnit.setHasCompletedTheTurn(true);
+      currentAttackingUnit.setIsCurrentUnit(false);
+      AttackTurnService.getNextAttackingUnit(unitsInTurn)?.setIsCurrentUnit(
+        true
+      );
+      AttackTurnService.isTheEndOfTurn(attackingTeam, currentAttackingUnit);
+    }
   };
 
   public static AttackTurnPrepare = (
     attackingTeam: Team,
-    enemyTeam: Team
+    enemyTeam: Team,
+    unitsInTurn: Array<units>
   ): units | void => {
     //  prepare units who are not dead and not paralyzed
-    SortAndCreateUnitsForTurn.sortAndCreateUnitsForTurn(attackingTeam);
 
     // getting current unit in turn
-    let currentAttackingUnit =
-      AttackTurnService.getCurrentAttackingUnit(attackingTeam);
+    const currentAttackingUnit =
+      AttackTurnService.getCurrentAttackingUnit(unitsInTurn);
 
     if (!currentAttackingUnit) {
       return;
     }
-
-    currentAttackingUnit.setIsCurrentUnit(true);
 
     if (attackingTeam.getIsDefending()) {
       UnitActions.defend(currentAttackingUnit);
@@ -91,12 +107,10 @@ export default class AttackTurnService {
     return currentAttackingUnit;
   };
 
-  public static getCurrentAttackingUnit(attackingTeam: Team): units | null {
-    return (
-      attackingTeam
-        .getUnitsInTurn()
-        .find(unit => !unit.getHasCompletedTheTurn()) || null
-    );
+  public static getCurrentAttackingUnit(
+    unitsInTurn: Array<units>
+  ): units | null {
+    return unitsInTurn.find(unit => !unit.getHasCompletedTheTurn()) || null;
   }
 
   public static cleanTargetsHighlights = (
@@ -119,15 +133,26 @@ export default class AttackTurnService {
     );
   };
 
+  public static getNextAttackingUnit(unitsInTurn: Array<units>): units | null {
+    return (
+      unitsInTurn[
+        unitsInTurn.findIndex(
+          unit =>
+            unit === unitsInTurn.find(unit => !unit.getHasCompletedTheTurn())
+        )
+      ] || null
+    );
+  }
+
   public static isTheEndOfTurn = (
     attackingTeam: Team,
     currentAttackingUnit: units
   ): boolean => {
+    const unitsInTurn =
+      SortAndCreateUnitsForTurn.sortAndCreateUnitsForTurn(attackingTeam);
     if (
-      attackingTeam
-        .getUnitsInTurn()
-        .findIndex(unit => unit === currentAttackingUnit) ===
-      attackingTeam.getUnitsInTurn().length - 1
+      unitsInTurn.findIndex(unit => unit === currentAttackingUnit) ===
+      unitsInTurn.length - 1
     ) {
       attackingTeam.setIsAttackTurnCompleted(true);
       attackingTeam.getUnits().forEach(untiRow =>

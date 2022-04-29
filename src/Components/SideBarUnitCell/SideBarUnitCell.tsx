@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { units } from "../../gameClasses/services/RandomUnitGenerator";
 import { assignInlineVars } from "@vanilla-extract/dynamic";
 import {
@@ -9,21 +9,14 @@ import {
   imageSideBar,
   paralyzeImageSideBar,
 } from "./SideBarUnitCell.css";
-import clsx from "clsx";
 
 type IUnitCell = {
   setUnitOnHover: (str: string) => void;
   unitOnHover: string;
-  cellUnit: units;
+  unit: units;
 };
 
-const SideBarUnitCell: React.FC<IUnitCell> = ({
-  cellUnit,
-  unitOnHover,
-  setUnitOnHover,
-}) => {
-  const unit = cellUnit;
-
+const SideBarUnitCell: React.FC<IUnitCell> = ({ unit, setUnitOnHover }) => {
   const handleCellMouseOver = (event: any) => {
     setUnitOnHover(unit.getId());
   };
@@ -40,6 +33,7 @@ const SideBarUnitCell: React.FC<IUnitCell> = ({
           unit.getTeam() === "A"
             ? "5px 5px 5px rgb(196, 107, 83, 0.9)"
             : "5px 5px 5px rgb(124, 96, 134, 0.9)",
+        transform: unit.getIsCurrentUnit() ? "translate(15px)" : "",
       })}
       onMouseOver={handleCellMouseOver}
       onMouseLeave={handleCellMouseLeave}
@@ -69,7 +63,6 @@ const SideBarUnitCell: React.FC<IUnitCell> = ({
           opacity: unit.getIsDead() ? "0.4" : "1",
         })}
       />
-
       <img
         src="https://i.ibb.co/3fjfT7b/red-color-solid-background-1920x1080.png"
         style={assignInlineVars({

@@ -11,6 +11,7 @@ export const cellWrapperSideBar = style({
   alignItems: "center",
   justifyContent: "center",
   backgroundColor: "rgb(100, 255, 255, 0.2)",
+  transition: "all 0.2s ease-in-out",
   cursor: "pointer",
   ":hover": {
     transform: "scale(1.01)",
