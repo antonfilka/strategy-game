@@ -9,7 +9,7 @@ export default class BomberUnit extends Unit {
     this.name = "Bomber";
     this.maxHp = 90;
     this.currentHp = this.maxHp;
-    this.damage = 30;
+    this.damage = 130;
     this.initiative = 40;
     this.image = unitsImages.bomber;
   }

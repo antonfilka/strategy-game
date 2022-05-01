@@ -11,6 +11,8 @@ import TurnSwitcher from "../../gameClasses/services/TurnSwitcher";
 import { teams } from "../../gameClasses/Units/Unit";
 import CleanUnitsFlags from "../../gameClasses/services/CleanUnitsFlags";
 import SortAndCreateUnitsForTurn from "../../gameClasses/services/SortAndCreateUnitsForTurn";
+import IsGameOver from "../../gameClasses/services/IsGameOver";
+import { WinnerModal } from "../WinnerModal/WinnerModal";
 
 const MainGame: React.FC = () => {
   const [currentTurn, setCurrentTurn] = useState(teams.teamA);
@@ -18,6 +20,7 @@ const MainGame: React.FC = () => {
   const [teamA] = useState(new Team({ team: teams.teamA }));
   const [teamB] = useState(new Team({ team: teams.teamB }));
   const [currentTurnActionNumber, setCurrentTurnActionNumber] = useState(0);
+  const [winnerTeam, setWinnerTeam] = useState<string | null>();
 
   const currentTeam = currentTurn === teams.teamA ? teamA : teamB;
   const waitingTeam = currentTurn === teams.teamA ? teamB : teamA;
@@ -50,6 +53,8 @@ const MainGame: React.FC = () => {
   const handleSetCurrentTarget = (unit: units) => {
     AttackTurnService.AttackTurnService(currentTeam, waitingTeam, unit);
     setCurrentTurnActionNumber(currentTurnActionNumber + 1);
+    if (IsGameOver.IsGameOver(teamA)) setWinnerTeam("B");
+    if (IsGameOver.IsGameOver(teamB)) setWinnerTeam("A");
   };
 
   const handleCancelButton = () => {
@@ -75,6 +80,7 @@ const MainGame: React.FC = () => {
 
   return (
     <div className={AppWrapper}>
+      {winnerTeam ? <WinnerModal winnerTeam={winnerTeam} /> : null}
       <RoundInfo
         currentTeam={currentTeam}
         unitOnHover={unitOnHover}
