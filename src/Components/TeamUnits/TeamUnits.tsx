@@ -1,5 +1,5 @@
+import clsx from "clsx";
 import React from "react";
-import AttackTurnService from "../../gameClasses/services/AttackTurnService";
 import { units } from "../../gameClasses/services/RandomUnitGenerator";
 import Team from "../../gameClasses/Team";
 import RowOfCells from "../RowOfCells/RowOfCells";
@@ -8,11 +8,16 @@ import {
   buttons,
   cancelButton,
   defendButton,
+  hidden,
   teamUnits,
   teamWrapper,
 } from "./TeamUnits.css";
 
 interface ITeamUnits {
+  currentTurn: string;
+  attackingUnit: units | null;
+  attackingTeam: Team;
+  enemyTeam: Team;
   unitOnHover: string;
   handleTurnChange: (team: string) => void;
   team: Team;
@@ -23,8 +28,12 @@ interface ITeamUnits {
 }
 
 const TeamUnits: React.FC<ITeamUnits> = ({
-  team,
+  currentTurn,
+  attackingUnit,
+  attackingTeam,
+  enemyTeam,
   unitOnHover,
+  team,
   handleNewTurnAction,
   handleCancelButton,
   handleSetCurrentTarget,
@@ -60,8 +69,12 @@ const TeamUnits: React.FC<ITeamUnits> = ({
         {team.getUnits().map((rowOfUnits, index) => {
           return (
             <RowOfCells
-              rowOfUnits={rowOfUnits}
               key={index}
+              currentTurn={currentTurn}
+              attackingUnit={attackingUnit}
+              attackingTeam={attackingTeam}
+              enemyTeam={enemyTeam}
+              rowOfUnits={rowOfUnits}
               unitOnHover={unitOnHover}
               handleSetCurrentTarget={handleSetCurrentTarget}
               unitsAvailable={unitsAvailable}
@@ -69,7 +82,9 @@ const TeamUnits: React.FC<ITeamUnits> = ({
           );
         })}
       </div>
-      <div className={buttons}>
+      <div
+        className={clsx(buttons, { [hidden]: currentTurn !== team.getTeam() })}
+      >
         <button className={defendButton} onClick={() => handleDefendButton()}>
           Defend
           <img
@@ -77,17 +92,30 @@ const TeamUnits: React.FC<ITeamUnits> = ({
             style={{ width: "20px", marginLeft: "15px" }}
           />
         </button>
-
-        <button className={attackButton} onClick={() => handleAttackButton()}>
-          Attack
-          <img
-            src="https://i.ibb.co/GVdshzC/sword.png"
-            style={{
-              width: "20px",
-              marginLeft: "15px",
-            }}
-          />
-        </button>
+        {attackingUnit?.getType() === "healerMass" ||
+        attackingUnit?.getType() === "healerSingle" ? (
+          <button className={attackButton} onClick={() => handleAttackButton()}>
+            Heal
+            <img
+              src="https://i.ibb.co/R9nFvHL/Medicine.png"
+              style={{
+                width: "20px",
+                marginLeft: "15px",
+              }}
+            />
+          </button>
+        ) : (
+          <button className={attackButton} onClick={() => handleAttackButton()}>
+            Attack
+            <img
+              src="https://i.ibb.co/GVdshzC/sword.png"
+              style={{
+                width: "20px",
+                marginLeft: "15px",
+              }}
+            />
+          </button>
+        )}
 
         <button className={cancelButton} onClick={() => handleCancel()}>
           Cancel

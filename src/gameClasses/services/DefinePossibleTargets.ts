@@ -22,7 +22,6 @@ export default class DefinePossibleTargets {
           );
           if (columnDiff <= 1) {
             if (!enemyUnit.getIsDead()) {
-              enemyUnit.setIsAttackTarget(true);
               possibleTargets.push(enemyUnit);
             }
           } else if (columnDiff === 2) {
@@ -41,7 +40,6 @@ export default class DefinePossibleTargets {
               }
               if (unitIsReachable) {
                 if (!enemyUnit.getIsDead()) {
-                  enemyUnit.setIsAttackTarget(true);
                   possibleTargets.push(enemyUnit);
                 }
               }
@@ -60,7 +58,6 @@ export default class DefinePossibleTargets {
               }
               if (unitIsReachable) {
                 if (!enemyUnit.getIsDead()) {
-                  enemyUnit.setIsAttackTarget(true);
                   possibleTargets.push(enemyUnit);
                 }
               }
@@ -87,7 +84,6 @@ export default class DefinePossibleTargets {
 
           if (secondRowIsReachable) {
             if (!enemyUnit.getIsDead()) {
-              enemyUnit.setIsAttackTarget(true);
               possibleTargets.push(enemyUnit);
             }
           }
@@ -107,9 +103,6 @@ export default class DefinePossibleTargets {
     enemyTeam.getUnits().forEach(unitRow =>
       unitRow.forEach(enemyUnit => {
         if (!enemyUnit.getIsDead()) {
-          unit.getType() === unitsTypes.paralyzer
-            ? enemyUnit.setIsParalyzeTarget(true)
-            : enemyUnit.setIsAttackTarget(true);
           possibleTargets.push(enemyUnit);
         }
       })
@@ -128,7 +121,6 @@ export default class DefinePossibleTargets {
     myTeam.getUnits().forEach(unitRow =>
       unitRow.forEach(myUnit => {
         if (!myUnit.getIsDead() && myUnit !== unit) {
-          myUnit.setIsHealTarget(true);
           possibleTargets.push(myUnit);
         }
       })

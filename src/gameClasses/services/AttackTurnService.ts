@@ -30,10 +30,8 @@ export default class AttackTurnService {
       return;
     }
 
-    currentAttackingUnit.setIsCurrentUnit(true);
-
     if (currentAttackingUnit.getIsDefending()) {
-      currentAttackingUnit.setIsCurrentUnit(false);
+      currentAttackingUnit.setHasCompletedTheTurn(true);
       AttackTurnService.getNextAttackingUnit(unitsInTurn)?.setIsCurrentUnit(
         true
       );
@@ -53,7 +51,6 @@ export default class AttackTurnService {
 
     if (attackResult) {
       attackingTeam.setIsAttacking(false);
-      AttackTurnService.cleanTargetsHighlights(attackingTeam, enemyTeam);
       currentAttackingUnit.setHasCompletedTheTurn(true);
       currentAttackingUnit.setIsCurrentUnit(false);
       AttackTurnService.getNextAttackingUnit(unitsInTurn)?.setIsCurrentUnit(
@@ -107,31 +104,26 @@ export default class AttackTurnService {
     return currentAttackingUnit;
   };
 
+  public static skipTurn = (
+    currentUnit: units | null,
+    attackingTeam: Team,
+    enemyTeam: Team
+  ): void => {
+    if (!currentUnit) return;
+    attackingTeam.setIsAttacking(false);
+    currentUnit.setHasCompletedTheTurn(true);
+    currentUnit.setIsCurrentUnit(false);
+    const unitsInTurn =
+      SortAndCreateUnitsForTurn.sortAndCreateUnitsForTurn(attackingTeam);
+    AttackTurnService.getNextAttackingUnit(unitsInTurn)?.setIsCurrentUnit(true);
+    AttackTurnService.isTheEndOfTurn(attackingTeam, currentUnit);
+  };
+
   public static getCurrentAttackingUnit(
     unitsInTurn: Array<units>
   ): units | null {
     return unitsInTurn.find(unit => !unit.getHasCompletedTheTurn()) || null;
   }
-
-  public static cleanTargetsHighlights = (
-    attackingTeam: Team,
-    enemyTeam: Team
-  ) => {
-    attackingTeam.getUnits().forEach(unitRow =>
-      unitRow.forEach(unit => {
-        unit.setIsAttackTarget(false);
-        unit.setIsHealTarget(false);
-        unit.setIsParalyzeTarget(false);
-      })
-    );
-    enemyTeam.getUnits().forEach(unitRow =>
-      unitRow.forEach(unit => {
-        unit.setIsAttackTarget(false);
-        unit.setIsHealTarget(false);
-        unit.setIsParalyzeTarget(false);
-      })
-    );
-  };
 
   public static getNextAttackingUnit(unitsInTurn: Array<units>): units | null {
     return (

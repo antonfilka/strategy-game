@@ -13,35 +13,78 @@ import {
   paralyzeImage,
 } from "./UnitCel.css";
 import clsx from "clsx";
+import Team from "../../gameClasses/Team";
+import DefinePossibleTargets from "../../gameClasses/services/DefinePossibleTargets";
+import { teams } from "../../gameClasses/Units/Unit";
 
 type IUnitCell = {
+  currentTurn: string;
+  attackingUnit: units | null;
+  attackingTeam: Team;
+  enemyTeam: Team;
   unitOnHover: string;
-  cellUnit: units;
+  unit: units;
   handleSetCurrentTarget: (unit: units) => void;
   unitsAvailable: boolean;
 };
 
 const UnitCell: React.FC<IUnitCell> = ({
-  cellUnit,
+  currentTurn,
+  attackingUnit,
+  attackingTeam,
+  enemyTeam,
+  unit,
   unitOnHover,
   handleSetCurrentTarget,
   unitsAvailable,
 }) => {
-  const unit = cellUnit;
   const [isOnHover, setIsOnHover] = useState(false);
-
-  let outlineOption = "";
-  if (unit.getIsAttackTarget()) {
-    outlineOption = "solid 1px rgb(0, 255, 0, 0.9)";
-  } else if (unit.getIsHealTarget()) {
-    outlineOption = "solid 1px rgb(255, 215, 0, 0.9)";
-  } else if (unit.getIsParalyzeTarget()) {
-    outlineOption = "solid 1px rgb(114, 9, 183, 0.9)";
-  }
+  const [isCurrentUnit, setIsCurrentUnit] = useState(false);
 
   useEffect(() => {
     unitOnHover === unit.getId() ? setIsOnHover(true) : setIsOnHover(false);
+
+    if (unit.getTeam() === currentTurn && !unit.getIsDead())
+      setIsCurrentUnit(unit.getIsCurrentUnit());
+    else setIsCurrentUnit(false);
   });
+
+  const range = ["Archer", "Gunner", "Bomber", "Musketeer", "Mage"];
+  const melee = ["Pirate", "Sworder"];
+  const heal = ["Doggy", "Priest"];
+  let possibleTargets: Array<units> = [];
+  if (attackingTeam.getIsAttacking() && attackingUnit) {
+    if (range.includes(attackingUnit.getName())) {
+      possibleTargets = DefinePossibleTargets.definePossibleRangeTargets(
+        attackingUnit,
+        enemyTeam
+      );
+    } else if (melee.includes(attackingUnit.getName())) {
+      possibleTargets = DefinePossibleTargets.definePossibleMeleeTargets(
+        attackingUnit,
+        enemyTeam
+      );
+    } else if (heal.includes(attackingUnit.getName())) {
+      possibleTargets = DefinePossibleTargets.definePossibleHealTargets(
+        attackingUnit,
+        attackingTeam
+      );
+    }
+  }
+
+  let outlineOption = "";
+  if (attackingUnit && possibleTargets.includes(unit)) {
+    if (attackingUnit.getType() === "paralyzer") {
+      outlineOption = "solid 1px rgb(114, 9, 183, 0.9)";
+    } else if (
+      attackingUnit.getType() === "healerSingle" ||
+      attackingUnit.getType() === "healerMass"
+    ) {
+      outlineOption = "solid 1px rgb(255, 215, 0, 0.9)";
+    } else {
+      outlineOption = "solid 1px rgb(0, 255, 0, 0.9)";
+    }
+  }
 
   const handleUnitClick = () => {
     if (unitsAvailable) {
@@ -66,7 +109,7 @@ const UnitCell: React.FC<IUnitCell> = ({
       })}
       onClick={handleUnitClick}
     >
-      {unit.getIsCurrentUnit() ? (
+      {isCurrentUnit ? (
         <img
           src="https://i.ibb.co/47GxPLG/spark.png"
           className={currentImage}

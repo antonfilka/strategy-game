@@ -1,7 +1,7 @@
 import Unit, { unitsImages, unitsTypes } from "./Unit";
 import { v4 } from "uuid";
 
-export default class BomberUnit extends Unit {
+export default class MusketeerUnit extends Unit {
   constructor(
     team: string,
     position: Array<number>,

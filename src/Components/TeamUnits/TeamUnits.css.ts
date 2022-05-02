@@ -19,6 +19,7 @@ export const teamUnits = style({
 export const defendButton = style({
   display: "flex",
   alignItems: "center",
+  justifyContent: "center",
   width: "120px",
   marginLeft: "20px",
   border: "none",
@@ -40,6 +41,7 @@ export const defendButton = style({
 
 export const attackButton = style({
   display: "flex",
+  justifyContent: "center",
   alignItems: "center",
   width: "120px",
   marginLeft: "20px",
@@ -64,6 +66,7 @@ export const attackButton = style({
 export const cancelButton = style({
   display: "flex",
   alignItems: "center",
+  justifyContent: "center",
   width: "120px",
   marginLeft: "20px",
   border: "none",
@@ -89,4 +92,8 @@ export const buttons = style({
   flexDirection: "column",
   alignItems: "center",
   rowGap: "20px",
+});
+
+export const hidden = style({
+  visibility: "hidden",
 });

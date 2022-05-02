@@ -10,9 +10,6 @@ export default class Unit {
   initiative: number = 10;
   isParalyzed: boolean = false;
   isDead: boolean = false;
-  isAttackTarget: boolean = false;
-  isHealTarget: boolean = false;
-  isParalyzeTarget: boolean = false;
   isDefending: boolean = false;
   isOnHover: boolean = false;
   image: string = "";
@@ -94,30 +91,6 @@ export default class Unit {
 
   public setIsParalyzed = (isParalyzed: boolean) => {
     this.isParalyzed = isParalyzed;
-  };
-
-  getIsAttackTarget = (): boolean => {
-    return this.isAttackTarget;
-  };
-
-  setIsAttackTarget = (isAttackTarget: boolean) => {
-    this.isAttackTarget = isAttackTarget;
-  };
-
-  getIsHealTarget = (): boolean => {
-    return this.isHealTarget;
-  };
-
-  setIsHealTarget = (isHealTarget: boolean) => {
-    this.isHealTarget = isHealTarget;
-  };
-
-  getIsParalyzeTarget = (): boolean => {
-    return this.isParalyzeTarget;
-  };
-
-  setIsParalyzeTarget = (isParalyzeTarget: boolean) => {
-    this.isParalyzeTarget = isParalyzeTarget;
   };
 
   public getTeam = () => {
