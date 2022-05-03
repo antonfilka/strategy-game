@@ -16,12 +16,11 @@ export default class AttackTurnService {
 
     let currentAttackingUnit = AttackTurnService.AttackTurnPrepare(
       attackingTeam,
-      enemyTeam,
       unitsInTurn
     );
 
     // if there are no attacking units in attacking team --> finish the turn for this team
-    if (!currentAttackingUnit) {
+    if (!currentAttackingUnit || !unitsInTurn) {
       attackingTeam.setIsAttackTurnCompleted(true);
 
       attackingTeam.getUnits().forEach(untiRow =>
@@ -29,6 +28,7 @@ export default class AttackTurnService {
           unit.setHasCompletedTheTurn(false);
         })
       );
+
       return;
     }
 
@@ -73,7 +73,6 @@ export default class AttackTurnService {
 
   public static AttackTurnPrepare = (
     attackingTeam: Team,
-    enemyTeam: Team,
     unitsInTurn: Array<units>
   ): units | void => {
     // getting current attacking unit
@@ -97,7 +96,17 @@ export default class AttackTurnService {
     currentUnit: units | null,
     attackingTeam: Team
   ): void => {
-    if (!currentUnit) return;
+    if (!currentUnit) {
+      attackingTeam.setIsAttackTurnCompleted(true);
+
+      attackingTeam.getUnits().forEach(untiRow =>
+        untiRow.forEach(unit => {
+          unit.setHasCompletedTheTurn(false);
+        })
+      );
+
+      return;
+    }
 
     attackingTeam.setIsAttacking(false);
 

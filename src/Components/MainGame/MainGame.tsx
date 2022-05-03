@@ -124,6 +124,7 @@ const MainGame: React.FC = () => {
   const firstUnit =
     SortAndCreateUnitsForTurn.sortAndCreateUnitsForTurn(currentTeam)[0];
   if (
+    firstUnit &&
     !firstUnit?.getHasCompletedTheTurn() &&
     !currentTeam.getIsAttackTurnCompleted()
   ) {
