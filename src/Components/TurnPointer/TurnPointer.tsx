@@ -10,11 +10,11 @@ import {
 } from "./TurnPointer.css";
 
 interface ITurnPointer {
-  currentTurn: string;
+  currentTeamTurn: string;
 }
 
-const TurnPointer: React.FC<ITurnPointer> = ({ currentTurn }) => {
-  const isTurnOfTeamA = currentTurn === teams.teamA ? true : false;
+const TurnPointer: React.FC<ITurnPointer> = ({ currentTeamTurn }) => {
+  const isTurnOfTeamA = currentTeamTurn === teams.teamA ? true : false;
 
   return (
     <div className={pointerWrapper}>
@@ -33,7 +33,6 @@ const TurnPointer: React.FC<ITurnPointer> = ({ currentTurn }) => {
           src="https://i.ibb.co/fYLXzJ4/Pointer.png"
         />
       </div>
-
       <div className={slider}></div>
     </div>
   );

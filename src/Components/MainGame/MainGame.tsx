@@ -16,7 +16,7 @@ import { WinnerModal } from "../WinnerModal/WinnerModal";
 import { CountDown } from "../CountDown/CountDown";
 
 const MainGame: React.FC = () => {
-  const [currentTurn, setCurrentTurn] = useState(teams.teamA);
+  const [currentTeamTurn, setCurrentTurn] = useState(teams.teamA);
   const [unitOnHover, setUnitOnHover] = useState<string>("");
   const [teamA] = useState(new Team({ team: teams.teamA }));
   const [teamB] = useState(new Team({ team: teams.teamB }));
@@ -24,8 +24,8 @@ const MainGame: React.FC = () => {
   const [winnerTeam, setWinnerTeam] = useState<string | null>();
   const [seconds, setSeconds] = useState<number>(10);
 
-  const currentTeam = currentTurn === teams.teamA ? teamA : teamB;
-  const waitingTeam = currentTurn === teams.teamA ? teamB : teamA;
+  const currentTeam = currentTeamTurn === teams.teamA ? teamA : teamB;
+  const waitingTeam = currentTeamTurn === teams.teamA ? teamB : teamA;
 
   const [currentUnit, setCurrentUnit] = useState(
     AttackTurnService.getCurrentAttackingUnit(
@@ -33,6 +33,7 @@ const MainGame: React.FC = () => {
     )
   );
 
+  // unitsAvailable --> units are available to be selected as targets
   const unitsAvailable =
     currentTeam.getIsAttacking() || waitingTeam.getIsAttacking();
 
@@ -44,6 +45,7 @@ const MainGame: React.FC = () => {
     );
   });
 
+  // setting unit turn timer
   useEffect(() => {
     const newTimer = setInterval(() => {
       setSeconds(prev => prev - 1);
@@ -52,11 +54,51 @@ const MainGame: React.FC = () => {
     return () => clearInterval(newTimer);
   }, [currentUnit]);
 
+  //checking if turn time is over
   if (seconds === 0 && !winnerTeam) {
+    // updating turn timer for 10 seconds
     setSeconds(10);
-    AttackTurnService.skipTurn(currentUnit, currentTeam, waitingTeam);
+
+    AttackTurnService.skipTurn(currentUnit, currentTeam);
   }
 
+  // handling new attack/defenf when "attack/heal" button is clicked
+  const handleNewTurnAction = (team: Team) => {
+    if (team.getTeam() === currentTeamTurn) {
+      if (team.getIsDefending()) {
+        // updating turn timer for 10 seconds
+        setSeconds(10);
+      }
+      // passing null because there's no target selected
+      AttackTurnService.AttackTurnService(currentTeam, waitingTeam, null);
+
+      setCurrentTurnActionNumber(currentTurnActionNumber + 1);
+      return;
+    }
+    alert("Wait until your turn");
+  };
+
+  // handling setting current unit when target unit is clicked
+  const handleSetCurrentTarget = (unit: units) => {
+    // updating turn timer for 10 seconds
+    setSeconds(10);
+
+    AttackTurnService.AttackTurnService(currentTeam, waitingTeam, unit);
+
+    setCurrentTurnActionNumber(currentTurnActionNumber + 1);
+
+    if (IsGameOver.IsGameOver(teamA)) setWinnerTeam("B");
+    if (IsGameOver.IsGameOver(teamB)) setWinnerTeam("A");
+  };
+
+  // handling "cancel" button
+  const handleCancelButton = () => {
+    currentTeam.setIsAttacking(false);
+
+    setCurrentTurnActionNumber(currentTurnActionNumber + 1);
+  };
+
+  // switching turns of teams
   const handleTurnChange = (team: string) => {
     TurnSwitcher.Switch(teamA, teamB);
     if (team === teams.teamA) {
@@ -70,36 +112,12 @@ const MainGame: React.FC = () => {
     }
   };
 
-  const handleNewTurnAction = (team: Team) => {
-    if (team.getTeam() === currentTurn) {
-      if (team.getIsDefending()) {
-        setSeconds(10);
-      }
-      // passing null because there's no target selected
-      AttackTurnService.AttackTurnService(currentTeam, waitingTeam, null);
-      setCurrentTurnActionNumber(currentTurnActionNumber + 1);
-      return;
-    }
-    alert("Wait until your turn");
-  };
-
-  const handleSetCurrentTarget = (unit: units) => {
-    setSeconds(10);
-    AttackTurnService.AttackTurnService(currentTeam, waitingTeam, unit);
-    setCurrentTurnActionNumber(currentTurnActionNumber + 1);
-    if (IsGameOver.IsGameOver(teamA)) setWinnerTeam("B");
-    if (IsGameOver.IsGameOver(teamB)) setWinnerTeam("A");
-  };
-
-  const handleCancelButton = () => {
-    currentTeam.setIsAttacking(false);
-    setCurrentTurnActionNumber(currentTurnActionNumber + 1);
-  };
-
+  // switching turns when one of teams has completed it's turn
   if (currentTeam.getIsAttackTurnCompleted()) {
     currentTeam.setIsAttackTurnCompleted(true);
     waitingTeam.setIsAttackTurnCompleted(false);
-    handleTurnChange(currentTurn);
+
+    handleTurnChange(currentTeamTurn);
   }
 
   // highlighting first attacking unit
@@ -125,7 +143,7 @@ const MainGame: React.FC = () => {
         <div className={team}>
           <TeamUnits
             team={teamA}
-            currentTurn={currentTurn}
+            currentTeamTurn={currentTeamTurn}
             attackingUnit={currentUnit}
             attackingTeam={currentTeam}
             enemyTeam={waitingTeam}
@@ -140,7 +158,7 @@ const MainGame: React.FC = () => {
         <div className={team}>
           <TeamUnits
             team={teamB}
-            currentTurn={currentTurn}
+            currentTeamTurn={currentTeamTurn}
             attackingUnit={currentUnit}
             attackingTeam={currentTeam}
             enemyTeam={waitingTeam}
@@ -153,7 +171,7 @@ const MainGame: React.FC = () => {
           />
         </div>
       </div>
-      <TurnPointer currentTurn={currentTurn} />
+      <TurnPointer currentTeamTurn={currentTeamTurn} />
       <DynamicBackground />
     </div>
   );

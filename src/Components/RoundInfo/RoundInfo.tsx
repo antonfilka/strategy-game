@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Team from "../../gameClasses/Team";
-import TurnSwitcher from "../../gameClasses/services/TurnSwitcher";
-import { teams } from "../../gameClasses/Units/Unit";
 import SideBarUnitCell from "../SideBarUnitCell/SideBarUnitCell";
 import { roundInfoWrapper } from "./RoundInfo.css";
 import SortAndCreateUnitsForTurn from "../../gameClasses/services/SortAndCreateUnitsForTurn";

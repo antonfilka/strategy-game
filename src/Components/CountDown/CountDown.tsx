@@ -16,7 +16,7 @@ export const CountDown: React.FC<ICountDown> = ({ seconds }) => {
           [clockExpire]: seconds <= 3,
         })}
       >
-        <p>{seconds >= 0 ? "  " + seconds : ""}</p>
+        <p>{seconds >= 0 ? seconds : ""}</p>
       </div>
     </div>
   );

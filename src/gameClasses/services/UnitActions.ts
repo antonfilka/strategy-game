@@ -44,6 +44,7 @@ export default class UnitActions {
     target: units
   ): boolean => {
     let possibleTargets = [];
+
     if (unit.getType() === "range") {
       possibleTargets = DefinePossibleTargets.definePossibleRangeTargets(
         unit,
@@ -56,6 +57,7 @@ export default class UnitActions {
       );
     }
 
+    // if no possible targets
     if (possibleTargets.length === 0)
       DefinePossibleTargets.noTargetsAction(unit, attackingTeam);
 
@@ -63,7 +65,8 @@ export default class UnitActions {
       UnitActions.applyDamage(target, unit.getDamage());
       return true;
     }
-    alert("You cant attack this unit");
+
+    alert("You can't attack this unit");
     return false;
   };
 
@@ -87,7 +90,8 @@ export default class UnitActions {
       );
       return true;
     }
-    alert("You cant attack this unit");
+
+    alert("You can't attack this unit");
     return false;
   };
 
@@ -108,7 +112,8 @@ export default class UnitActions {
       UnitActions.applyHeal(target, unit.getHeal());
       return true;
     }
-    alert("You cant Heal this unit");
+
+    alert("You can't Heal this unit");
     return false;
   };
 
@@ -131,7 +136,8 @@ export default class UnitActions {
       );
       return true;
     }
-    alert("You cant Heal this unit");
+
+    alert("You can't Heal this unit");
     return false;
   };
 
@@ -153,16 +159,17 @@ export default class UnitActions {
       target.setIsParalyzed(true);
       return true;
     }
-    alert("You cant attack this unit");
+
+    alert("You can't attack this unit");
     return false;
   };
 
   public static applyHeal = (unit: units, heal: number): void => {
     if (!unit.isDead) {
       unit.setCurrentHp(unit.getCurrentHp() + heal);
-      if (unit.getCurrentHp() > unit.getMaxHp()) {
+
+      if (unit.getCurrentHp() > unit.getMaxHp())
         unit.setCurrentHp(unit.getMaxHp());
-      }
     }
   };
 

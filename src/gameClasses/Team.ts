@@ -18,6 +18,8 @@ export default class Team {
     this.isMyTurn = props.team === teams.teamB ? false : true;
     this.isDefending = false;
     this.isAttacking = false;
+
+    // numbers in [] mean unit position on battlefield
     this.units =
       this.team === teams.teamA
         ? [

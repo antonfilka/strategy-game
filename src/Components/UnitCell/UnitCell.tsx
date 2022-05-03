@@ -18,7 +18,7 @@ import DefinePossibleTargets from "../../gameClasses/services/DefinePossibleTarg
 import { teams } from "../../gameClasses/Units/Unit";
 
 type IUnitCell = {
-  currentTurn: string;
+  currentTeamTurn: string;
   attackingUnit: units | null;
   attackingTeam: Team;
   enemyTeam: Team;
@@ -29,7 +29,7 @@ type IUnitCell = {
 };
 
 const UnitCell: React.FC<IUnitCell> = ({
-  currentTurn,
+  currentTeamTurn,
   attackingUnit,
   attackingTeam,
   enemyTeam,
@@ -44,11 +44,12 @@ const UnitCell: React.FC<IUnitCell> = ({
   useEffect(() => {
     unitOnHover === unit.getId() ? setIsOnHover(true) : setIsOnHover(false);
 
-    if (unit.getTeam() === currentTurn && !unit.getIsDead())
+    if (unit.getTeam() === currentTeamTurn && !unit.getIsDead())
       setIsCurrentUnit(unit.getIsCurrentUnit());
     else setIsCurrentUnit(false);
   });
 
+  // defining possible targets depending on unit type
   const range = ["Archer", "Gunner", "Bomber", "Musketeer", "Mage"];
   const melee = ["Pirate", "Sworder"];
   const heal = ["Doggy", "Priest"];
@@ -72,6 +73,7 @@ const UnitCell: React.FC<IUnitCell> = ({
     }
   }
 
+  // setting outline options (attack, heal, paralyze) target if this unit is a target
   let outlineOption = "";
   if (attackingUnit && possibleTargets.includes(unit)) {
     if (attackingUnit.getType() === "paralyzer") {

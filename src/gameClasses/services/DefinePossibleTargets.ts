@@ -1,5 +1,5 @@
 import Team from "../Team";
-import { teams, unitsTypes } from "../Units/Unit";
+import { teams } from "../Units/Unit";
 import AttackTurnService from "./AttackTurnService";
 import { units } from "./RandomUnitGenerator";
 import SortAndCreateUnitsForTurn from "./SortAndCreateUnitsForTurn";
@@ -65,26 +65,42 @@ export default class DefinePossibleTargets {
           }
           // if distance to target is greater than 1 row, check if the unit reachable because of any dead units
         } else if (rowDiff === 2) {
-          let secondRowIsReachable = true;
-          enemyUnit.getTeam() === teams.teamB
-            ? enemyTeam
-                .getUnits()[0]
-                .forEach(enemyUnit =>
-                  enemyUnit.getIsDead()
-                    ? (secondRowIsReachable = secondRowIsReachable && true)
-                    : (secondRowIsReachable = secondRowIsReachable && false)
-                )
-            : enemyTeam
-                .getUnits()[1]
-                .forEach(enemyUnit =>
-                  enemyUnit.getIsDead()
-                    ? (secondRowIsReachable = secondRowIsReachable && true)
-                    : (secondRowIsReachable = secondRowIsReachable && false)
-                );
+          if (unit.getPosition()[1] === 2) {
+            let centralUnit =
+              enemyUnit.getTeam() === teams.teamB
+                ? enemyTeam.getUnits()[0][1]
+                : enemyTeam.getUnits()[1][1];
+            if (centralUnit.getIsDead()) {
+              enemyUnit.getTeam() === teams.teamB
+                ? enemyTeam
+                    .getUnits()[1]
+                    .forEach(enemyUnit => possibleTargets.push(enemyUnit))
+                : enemyTeam
+                    .getUnits()[0]
+                    .forEach(enemyUnit => possibleTargets.push(enemyUnit));
+            }
+          } else {
+            let secondRowIsReachable = true;
+            enemyUnit.getTeam() === teams.teamB
+              ? enemyTeam
+                  .getUnits()[0]
+                  .forEach(enemyUnit =>
+                    enemyUnit.getIsDead()
+                      ? (secondRowIsReachable = secondRowIsReachable && true)
+                      : (secondRowIsReachable = secondRowIsReachable && false)
+                  )
+              : enemyTeam
+                  .getUnits()[1]
+                  .forEach(enemyUnit =>
+                    enemyUnit.getIsDead()
+                      ? (secondRowIsReachable = secondRowIsReachable && true)
+                      : (secondRowIsReachable = secondRowIsReachable && false)
+                  );
 
-          if (secondRowIsReachable) {
-            if (!enemyUnit.getIsDead()) {
-              possibleTargets.push(enemyUnit);
+            if (secondRowIsReachable) {
+              if (!enemyUnit.getIsDead()) {
+                possibleTargets.push(enemyUnit);
+              }
             }
           }
         }
@@ -117,7 +133,7 @@ export default class DefinePossibleTargets {
   ): Array<units> => {
     const possibleTargets: Array<units> = [];
 
-    // setting all friendly units as possible target
+    // setting ally units as possible targets except dead ones
     myTeam.getUnits().forEach(unitRow =>
       unitRow.forEach(myUnit => {
         if (!myUnit.getIsDead() && myUnit !== unit) {
@@ -131,12 +147,18 @@ export default class DefinePossibleTargets {
 
   public static noTargetsAction = (unit: units, attackingTeam: Team): void => {
     unit.setHasCompletedTheTurn(true);
+
     unit.setIsCurrentUnit(false);
-    alert("This unit stands too far to attack anybody");
+
     attackingTeam.setIsAttacking(false);
+
+    // set next attacking unit of team as current unit
     AttackTurnService.getNextAttackingUnit(
       SortAndCreateUnitsForTurn.sortAndCreateUnitsForTurn(attackingTeam)
     )?.setIsCurrentUnit(true);
+
     AttackTurnService.isTheEndOfTurn(attackingTeam, unit);
+
+    alert("This unit stands too far to attack anybody");
   };
 }

@@ -5,7 +5,7 @@ import UnitCell from "../UnitCell/UnitCell";
 import { rowWrapper } from "./RowOfCells.css";
 
 type IRowOfCells = {
-  currentTurn: string;
+  currentTeamTurn: string;
   attackingUnit: units | null;
   attackingTeam: Team;
   enemyTeam: Team;
@@ -16,7 +16,7 @@ type IRowOfCells = {
 };
 
 const RowOfCells: React.FC<IRowOfCells> = ({
-  currentTurn,
+  currentTeamTurn,
   attackingUnit,
   attackingTeam,
   enemyTeam,
@@ -30,7 +30,7 @@ const RowOfCells: React.FC<IRowOfCells> = ({
       {rowOfUnits.map((unit: units, index: number) => (
         <UnitCell
           key={index}
-          currentTurn={currentTurn}
+          currentTeamTurn={currentTeamTurn}
           attackingUnit={attackingUnit}
           attackingTeam={attackingTeam}
           enemyTeam={enemyTeam}

@@ -14,7 +14,7 @@ import {
 } from "./TeamUnits.css";
 
 interface ITeamUnits {
-  currentTurn: string;
+  currentTeamTurn: string;
   attackingUnit: units | null;
   attackingTeam: Team;
   enemyTeam: Team;
@@ -28,7 +28,7 @@ interface ITeamUnits {
 }
 
 const TeamUnits: React.FC<ITeamUnits> = ({
-  currentTurn,
+  currentTeamTurn,
   attackingUnit,
   attackingTeam,
   enemyTeam,
@@ -70,7 +70,7 @@ const TeamUnits: React.FC<ITeamUnits> = ({
           return (
             <RowOfCells
               key={index}
-              currentTurn={currentTurn}
+              currentTeamTurn={currentTeamTurn}
               attackingUnit={attackingUnit}
               attackingTeam={attackingTeam}
               enemyTeam={enemyTeam}
@@ -83,7 +83,9 @@ const TeamUnits: React.FC<ITeamUnits> = ({
         })}
       </div>
       <div
-        className={clsx(buttons, { [hidden]: currentTurn !== team.getTeam() })}
+        className={clsx(buttons, {
+          [hidden]: currentTeamTurn !== team.getTeam(),
+        })}
       >
         <button className={defendButton} onClick={() => handleDefendButton()}>
           Defend
